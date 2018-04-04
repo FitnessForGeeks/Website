@@ -13,10 +13,10 @@ function signUpButtonPressed() {
   const inputs = document
     .querySelector("div.form:not(.hidden)")
     .querySelectorAll("input");
-  const username = inputs[2];
-  const password = inputs[3];
-  const email = inputs[4];
-  AccountApi.signUp(username, password, email);
+  const username = inputs[0].value;
+  const password = inputs[1].value;
+  const email = inputs[2].value;
+  UserApi.signUp(username, password, email);
 }
 
 function signInButtonPressed() {
@@ -25,5 +25,5 @@ function signInButtonPressed() {
         .querySelectorAll("input");
     const username = inputs[0].value;
     const password = inputs[1].value;
-    AccountApi.signIn(username, password);
+    UserApi.signIn(username, password);
 }

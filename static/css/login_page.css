@@ -3,16 +3,11 @@ body {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-input::-webkit-datetime-edit{ color: transparent; }
-
-/* Include this to make it visible when input is clicked */
-input:focus::-webkit-datetime-edit{ color: #000; } 
-
 #container {
   display: flex;
   height: 100vh;
 }
-#form {
+#content {
   display: flex;
   flex-direction: column;
   align-self: center;
@@ -39,6 +34,14 @@ input:focus::-webkit-datetime-edit{ color: #000; }
 
 .form > button {
   align-self: flex-end;
+}
+
+.form > main{
+  flex-grow: 1;
+}
+
+.form > button{
+  width: 87;
 }
 
 .hidden {

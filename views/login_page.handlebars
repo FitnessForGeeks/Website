@@ -12,25 +12,25 @@
 
 <body>
     <div id="container">
-        <div id="form" class="card">
+        <div id="content" class="card">
             <div id="options">
                 <button class="btn" onclick="switchForm(this, 0)">signin</button>
                 <button class="btn" onclick="switchForm(this, 1)">signup</button>
             </div>
             <input-field label="Username" ></input-field>
             <div class="form">
-                <div>
+                <main>
                     {{> input_field label="Username" input_type="text" input_name="username" }}
                     {{> input_field label="Password" input_type="password" input_name="password" }}
-                </div>
+                </main>
                 <button class="btn btn-raised" onclick="signInButtonPressed()"> Sign in </button>
             </div>
             <div class="form hidden">
-                <div>
+                <main>
                     {{> input_field label="Username" input_type="text" input_name="username" }}
                     {{> input_field label="Password" input_type="password" input_name="password" }}
                     {{> input_field label="E-mail" input_type="email" input_name="email" }}
-                </div>
+                </main>
                 <button class="btn btn-raised" onclick="signUpButtonPressed()"> Sign up </button>
             </div>
         </div>

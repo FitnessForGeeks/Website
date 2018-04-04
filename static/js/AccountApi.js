@@ -1,5 +1,5 @@
 let API_URL = "http://localhost:4567";
-class AccountApi{
+class UserApi{
     static signIn(username, password){
         fetch(API_URL + "/user", {
             method: "get",
@@ -13,13 +13,15 @@ class AccountApi{
         .catch(error => console.log(error));
     }
     static signUp(username, password, email){
-        fetch(API_URL + "/user", {
+        const body = {
+            username: username,
+            password: password,
+            email: email
+        };
+
+        fetch(API_URL + "/users", {
             method: "post",
-            body: {
-                username,
-                password,
-                email
-            }
+            body: JSON.stringify(body)
         })
         .then(response => response.json())
         .then(json => console.log(json))
