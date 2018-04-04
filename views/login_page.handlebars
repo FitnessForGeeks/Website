@@ -4,45 +4,39 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>FitnessForGeeks</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
         integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link href="login_page.css" rel="stylesheet">
+    <link href="/css/login_page.css" rel="stylesheet">
 </head>
 
 <body>
     <div id="container">
         <div id="form" class="card">
             <div id="options">
-                <button onclick="switchForm(this, 0)">signin</button>
-                <button onclick="switchForm(this, 1)">signup</button>
+                <button class="btn" onclick="switchForm(this, 0)">signin</button>
+                <button class="btn" onclick="switchForm(this, 1)">signup</button>
             </div>
             <div class="form">
-                <div class="form-group">
-                    <label for="login-username" class="bmd-label-floating">Username</label>
-                    <input type="text" class="form-control" id="login-username">
+                <div>
+                    {{> input_field label="Username" input_type="text" input_name="username" }}
+                    {{> input_field label="Password" input_type="password" input_name="password" }}
                 </div>
-                <div class="form-group">
-                    <label for="login-password" class="bmd-label-floating">Password</label>
-                    <input type="text" class="form-control" id="login-password">
-                </div>
+                <button class="btn btn-raised" onclick="signInButtonPressed()"> Sign in </button>
             </div>
             <div class="form hidden">
-                <label>First name:</label>
-                <input type="text" name="fname">
-                <label>Last name</label>
-                <input type="text" name="lname">
-                <label>Username</label>
-                <input type="text" name="uname">
-                <label>Password</label>
-                <input type="password" name="pword">
-                <label>E-mail</label>
-                <input type="email" name="email">
-                <label>Birthdate</label>
-                <input type="date" name="bdate">
+                <div>
+                    {{> input_field label="Username" input_type="text" input_name="username" }}
+                    {{> input_field label="Password" input_type="password" input_name="password" }}
+                    {{> input_field label="E-mail" input_type="email" input_name="email" }}
+                </div>
+                <button class="btn btn-raised" onclick="signUpButtonPressed()"> Sign up </button>
             </div>
         </div>
     </div>
+    <script src="/js/AccountApi.js"></script>
+    <script src="/js/login_page.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
@@ -50,7 +44,6 @@
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
         crossorigin="anonymous"></script>
     <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
-    <script src="login_page.js"></script>
 </body>
 
 </html>
