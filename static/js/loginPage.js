@@ -45,7 +45,7 @@ function signUpButtonPressed() {
     error = true;
   }
   if(!error)
-    UserApi.signUp(username, password, email);
+    AccountApi.signUp(username, password, email);
 }
 
 function isValidEmail(email){
@@ -58,5 +58,7 @@ function signInButtonPressed() {
         .querySelectorAll("input");
     const username = inputs[0].value;
     const password = inputs[1].value;
-    UserApi.signIn(username, password);
+    AccountApi.signIn(username, password, res => {
+      console.log(res);
+    });
 }
