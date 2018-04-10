@@ -7,36 +7,39 @@
     <title>FitnessForGeeks</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
         integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link href="/css/login_page.css" rel="stylesheet">
+    <link href="/css/loginPage.css" rel="stylesheet">
 </head>
 
 <body>
     <div id="container">
+        <div id="alerts">
+        </div>
         <div id="content" class="card">
-            <div id="options">
-                <button class="btn" onclick="switchForm(this, 0)">signin</button>
-                <button class="btn" onclick="switchForm(this, 1)">signup</button>
+            <div class="navigation">
+                <button onclick="switchForm(0)" class="active">Sign In</button>
+                <button onclick="switchForm(1)">Sign Up</button>
             </div>
-            <input-field label="Username" ></input-field>
             <div class="form">
                 <main>
-                    {{> input_field label="Username" input_type="text" input_name="username" }}
-                    {{> input_field label="Password" input_type="password" input_name="password" }}
+                    {{> inputField label="Username" input_type="text" input_name="username" }}
+                    {{> inputField label="Password" input_type="password" input_name="password" }}
                 </main>
                 <button class="btn btn-raised" onclick="signInButtonPressed()"> Sign in </button>
             </div>
             <div class="form hidden">
                 <main>
-                    {{> input_field label="Username" input_type="text" input_name="username" }}
-                    {{> input_field label="Password" input_type="password" input_name="password" }}
-                    {{> input_field label="E-mail" input_type="email" input_name="email" }}
+                    {{> inputField label="Username" input_type="text" input_name="username" }}
+                    {{> inputField label="Password" input_type="password" input_name="password" }}
+                    {{> inputField label="Confirm Password" input_type="password" input_name="confirm_password" }}
+                    {{> inputField label="E-mail" input_type="email" input_name="email" }}
                 </main>
                 <button class="btn btn-raised" onclick="signUpButtonPressed()"> Sign up </button>
             </div>
         </div>
     </div>
-    <script src="/js/AccountApi.js"></script>
-    <script src="/js/login_page.js"></script>
+    <script src="/js/UserApi.js"></script>
+    <script src="/js/alert.js"></script>
+    <script src="/js/loginPage.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

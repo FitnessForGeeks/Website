@@ -1,0 +1,66 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#container {
+  display: grid;
+  grid-template-rows: 25vh 75vh;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "alert alert alert"
+                       "content content content";
+  height: 100vh;
+}
+#content {
+  grid-area: content;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 400px;
+  height: 440px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -25vh;
+}
+
+#alerts{
+  grid-area: alert;
+  padding: 10px 15px;
+}
+
+.navigation{
+  display: flex;
+}
+
+.navigation button{
+  width: 50%;
+  height: 70px;
+  border: none;
+  background-color: white;
+  font-size: 1.3em;
+  color: black;
+  cursor: pointer;
+}
+
+.navigation button.active{
+  color: white;
+  background: #919191;
+}
+.form {
+  margin: 20px 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form > main{
+  flex-grow: 1;
+}
+
+.form > button{
+  align-self: flex-end;
+  width: 87;
+}
+
+.hidden {
+  display: none;
+}

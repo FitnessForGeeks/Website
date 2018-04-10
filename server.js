@@ -12,6 +12,6 @@ app.use(express.static("static"));
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "/views"));
 app.get("/login", function(req, res) {
-  res.render("login_page.handlebars");
+  res.render("loginPage.handlebars");
 });
 app.listen(3000, () => console.log("Listening on port 3000"));

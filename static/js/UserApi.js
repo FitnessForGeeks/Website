@@ -1,4 +1,5 @@
 let API_URL = "http://localhost:4567";
+
 class UserApi{
     static signIn(username, password){
         fetch(API_URL + "/user", {
