@@ -7,10 +7,13 @@
     <title>FitnessForGeeks</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
         integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/navbar.css">
     <link href="/css/loginPage.css" rel="stylesheet">
+
 </head>
 
 <body>
+    {{> navbar recipe = true}}
     <div id="container">
         <div id="alerts">
         </div>
@@ -21,17 +24,16 @@
             </div>
             <div class="form">
                 <main>
-                    {{> inputField label="Username" input_type="text" input_name="username" }}
-                    {{> inputField label="Password" input_type="password" input_name="password" }}
+                    {{> inputField label="Username" input_type="text" input_name="username" }} {{> inputField label="Password" input_type="password"
+                    input_name="password" }}
                 </main>
                 <button class="btn btn-raised" onclick="signInButtonPressed()"> Sign in </button>
             </div>
             <div class="form hidden">
                 <main>
-                    {{> inputField label="Username" input_type="text" input_name="username" }}
-                    {{> inputField label="Password" input_type="password" input_name="password" }}
-                    {{> inputField label="Confirm Password" input_type="password" input_name="confirm_password" }}
-                    {{> inputField label="E-mail" input_type="email" input_name="email" }}
+                    {{> inputField label="Username" input_type="text" input_name="username" }} {{> inputField label="Password" input_type="password"
+                    input_name="password" }} {{> inputField label="Confirm Password" input_type="password" input_name="confirm_password"
+                    }} {{> inputField label="E-mail" input_type="email" input_name="email" }}
                 </main>
                 <button class="btn btn-raised" onclick="signUpButtonPressed()"> Sign up </button>
             </div>
