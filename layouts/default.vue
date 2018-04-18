@@ -1,0 +1,22 @@
+<template>
+    <div>
+        <v-app>
+            <navbar></navbar>
+            <nuxt></nuxt>
+        </v-app>
+    </div>
+</template>
+<script>
+import navbar from "@/components/navbar.vue";
+
+
+export default {
+    updated(){
+    },
+    components:{
+        navbar
+    }
+}
+</script>
+<style>
+</style>

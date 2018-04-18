@@ -1,6 +1,6 @@
 let API_URL = "http://localhost:4567";
 
-class AccountApi{
+export default class AccountApi{
     static signIn(username, password, callback){
         fetch(API_URL + "/accounts", {
             method: "get",
