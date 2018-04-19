@@ -1,4 +1,6 @@
-let API_URL = "http://localhost:4567";
+import sha256 from "js-sha256";
+
+const  API_URL = "http://localhost:4567";
 
 export default class AccountApi{
     static signIn(username, password, callback){
@@ -6,7 +8,7 @@ export default class AccountApi{
             method: "get",
             body: {
                 username,
-                password
+                password: sha256(password)
             }
         })
         .then(response => response.json())
@@ -16,7 +18,7 @@ export default class AccountApi{
     static signUp(username, password, email){
         const body = {
             username: username,
-            password: password,
+            password: sha256(password),
             email: email
         };
 
