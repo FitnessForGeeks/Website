@@ -3,11 +3,11 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const _4ad6a0a2 = () => import('..\\pages\\signup.vue' /* webpackChunkName: "pages_signup" */).then(m => m.default || m)
-const _783371a2 = () => import('..\\pages\\login.vue' /* webpackChunkName: "pages_login" */).then(m => m.default || m)
-const _ac4d0cbc = () => import('..\\pages\\community.vue' /* webpackChunkName: "pages_community" */).then(m => m.default || m)
-const _bc3346c4 = () => import('..\\pages\\recipes.vue' /* webpackChunkName: "pages_recipes" */).then(m => m.default || m)
-const _a2e862ea = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
+const _caf5b620 = () => import('..\\pages\\signup.vue' /* webpackChunkName: "pages_signup" */).then(m => m.default || m)
+const _b0a25f7e = () => import('..\\pages\\login.vue' /* webpackChunkName: "pages_login" */).then(m => m.default || m)
+const _4d931e7e = () => import('..\\pages\\community.vue' /* webpackChunkName: "pages_community" */).then(m => m.default || m)
+const _3ff6e106 = () => import('..\\pages\\recipes.vue' /* webpackChunkName: "pages_recipes" */).then(m => m.default || m)
+const _43f1a5ac = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
 
 
 
@@ -69,27 +69,27 @@ export function createRouter () {
     routes: [
 		{
 			path: "/signup",
-			component: _4ad6a0a2,
+			component: _caf5b620,
 			name: "signup"
 		},
 		{
 			path: "/login",
-			component: _783371a2,
+			component: _b0a25f7e,
 			name: "login"
 		},
 		{
 			path: "/community",
-			component: _ac4d0cbc,
+			component: _4d931e7e,
 			name: "community"
 		},
 		{
 			path: "/recipes",
-			component: _bc3346c4,
+			component: _3ff6e106,
 			name: "recipes"
 		},
 		{
 			path: "/",
-			component: _a2e862ea,
+			component: _43f1a5ac,
 			name: "index"
 		}
     ],

@@ -72,14 +72,7 @@ export default {
                 AccountApi.signUp(
                     this.username,
                     this.password,
-                    this.email,
-                    response => {
-                        AccountApi
-                            .signIn(this.username, this.password)
-                            .then(response => {
-
-                            })
-                    }
+                    this.email
                 );
             }
         }

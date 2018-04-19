@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-app>
+        <v-app dark>
             <navbar></navbar>
             <nuxt></nuxt>
         </v-app>
@@ -9,10 +9,7 @@
 <script>
 import navbar from "@/components/navbar.vue";
 
-
 export default {
-    updated(){
-    },
     components:{
         navbar
     }

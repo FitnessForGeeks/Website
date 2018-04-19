@@ -10,7 +10,7 @@
             <v-menu offset-y>
                 <v-btn slot="activator" flat class="dropdown-btn margin-right"> Username <i class="material-icons">arrow_drop_down</i> </v-btn>
                 <v-list>
-                    <v-list-tile @click="">
+                    <v-list-tile @click="onUserMenuClicked">
                         <v-list-tile-title>
                             Log out
                         </v-list-tile-title>
@@ -29,9 +29,41 @@
 </template>
 
 <script>
+import AccountApi from "@/assets/accountApi";
+
 export default {
+    mounted(){
+        this.$store.subscribe((mutation, state) => {
+            switch(mutation.type){
+                case "account/logIn":
+                    this.loggedIn = true;
+                    break;
+                case "account/logOut":
+                    this.loggedIn = false;
+                    break;
+            }
+        })
+        if(AccountApi.isLoggedIn){
+            this.$store.commit("account/logIn");
+        }
+    },
+    methods:{
+        onUserMenuClicked(event){
+            console.log(event.target);
+            switch(event.target.textContent.trim()){
+                case "Log Out":
+                    this.logOut();
+                    break;
+            }
+        },
+        logOut(){
+            AccountApi.logOut();
+            this.$store.commit("account/logOut");
+        }
+    },
     data(){
         return {
+            loggedIn: false,
             routes: [
                 {
                     path: "/",
@@ -45,8 +77,7 @@ export default {
                     path: "/community",
                     name: "Community"
                 }
-            ],
-            loggedIn: false
+            ]
         }
     }
 }

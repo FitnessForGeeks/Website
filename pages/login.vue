@@ -6,7 +6,6 @@
                     <v-text-field
                         label="Username"
                         v-model="username"
-                        :class="{ 'input-group--dirty': dirtyUsername}"
                         :rules="[rules.required('Username')]"
                         id="username"
                         required
@@ -16,11 +15,14 @@
                         v-model="password"
                         type="password"
                         id="password"
-                        :class="{ 'input-group--dirty': dirtyPassword}"
                         :rules="[rules.required('Password')]"
                         required
                     ></v-text-field>
-                    <v-btn :disabled="!valid"> Login </v-btn>
+                    <v-checkbox
+                        label="Stay logged in?"
+                        v-model="stayLoggedIn"
+                    ></v-checkbox>
+                    <v-btn :disabled="!valid" @click="onSubmitButtonClicked"> Login </v-btn>
                 </v-form>
             </v-card-text>
         </v-card>
@@ -35,8 +37,7 @@ export default {
         return {
             username: "",
             password: "",
-            dirtyUsername: null,
-            dirtyPassword: null,
+            stayLoggedIn: false,
             valid: true,
             rules: {
                 required: name => val => {
@@ -50,24 +51,16 @@ export default {
     methods:{
         onSubmitButtonClicked(){
             if(this.valid)
-                AccountApi.signIn(this.username, this.password);
+                AccountApi.signIn(this.username, this.password, this.stayLoggedIn, res => {
+                    this.$store.commit("account/logIn");
+                    console.log(res);
+                });
         }
-    },
-    mounted(){
-        let times = 0;
-        const interval = setInterval(() => {
-            times += 1;
-            if ((this.dirtyEmail && this.dirtyPwd) || times === 20) {
-                clearInterval(interval);
-            }
-            this.dirtyEmail = document.querySelector('input[type="email"]:-webkit-autofill');
-            this.dirtyPwd = document.querySelector('input[type="password"]:-webkit-autofill');
-        }, 100); 
     }
 }
 </script>
 
-<style>
+<style scoped>
 .login-form{
     width: 400px;
     margin: 200px auto;
