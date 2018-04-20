@@ -11,7 +11,7 @@
                 <v-btn slot="activator" flat class="dropdown-btn margin-right"> Username <i class="material-icons">arrow_drop_down</i> </v-btn>
                 <v-list>
                     <v-list-tile @click="onUserMenuClicked">
-                        <v-list-tile-title>
+                        <v-list-tile-title id="logOut">
                             Log out
                         </v-list-tile-title>
                     </v-list-tile>
@@ -49,9 +49,8 @@ export default {
     },
     methods:{
         onUserMenuClicked(event){
-            console.log(event.target);
-            switch(event.target.textContent.trim()){
-                case "Log Out":
+            switch(event.target.id){
+                case "logOut":
                     this.logOut();
                     break;
             }

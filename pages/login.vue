@@ -33,6 +33,10 @@
 import AccountApi from "@/assets/accountApi.js";
 
 export default {
+    mounted(){
+        if(AccountApi.isLoggedIn)
+            this.$router.push("/");
+    },
     data(){
         return {
             username: "",
@@ -53,7 +57,7 @@ export default {
             if(this.valid)
                 AccountApi.signIn(this.username, this.password, this.stayLoggedIn, res => {
                     this.$store.commit("account/logIn");
-                    console.log(res);
+                    this.$router.push("/");
                 });
         }
     }

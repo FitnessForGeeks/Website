@@ -14,8 +14,9 @@ export default class AccountApi{
         })
         .then(response => response.json())
         .then(res => {
+            sessionStorage.setItem("loggedIn", "true");
             if(stayLoggedIn){
-                sessionStorage.setItem("loggedIn", "true");
+                // cookies and stuff
             }
             if(callback)
                 callback(res);
