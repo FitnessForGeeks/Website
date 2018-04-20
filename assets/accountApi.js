@@ -6,7 +6,8 @@ export default class AccountApi{
     static signIn(username, password, stayLoggedIn, callback){
         const body =  {
             username,
-            password: sha256(password)
+            password: sha256(password),
+            stayLoggedIn
         }
         fetch(API_URL + "/sign_in", {
             method: "post",
@@ -17,6 +18,7 @@ export default class AccountApi{
             sessionStorage.setItem("loggedIn", "true");
             if(stayLoggedIn){
                 // cookies and stuff
+                Cookies.set("sessionKey", res.sessionKey);
             }
             if(callback)
                 callback(res);
