@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-app dark>
+        <v-app light>
             <navbar></navbar>
             <nuxt></nuxt>
         </v-app>
