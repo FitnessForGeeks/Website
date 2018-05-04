@@ -23,13 +23,13 @@
         </v-toolbar-items>
         <v-toolbar-items v-if="!this.loggedIn" class="align-right">
             <v-btn nuxt flat exact to="login"> login </v-btn>
-            <v-btn nuxt flat exact to="signup"> signup </v-btn>
+            <v-btn nuxt flat exact to="register"> register </v-btn>
         </v-toolbar-items>
     </v-toolbar>
 </template>
 
 <script>
-import AccountApi from "@/assets/accountApi";
+import AccountApi from "@/assets/account.js";
 
 export default {
     mounted(){
@@ -43,7 +43,7 @@ export default {
                     break;
             }
         })
-        if(AccountApi.isLoggedIn){
+        if(AccountApi.isLoggedIn()){
             this.$store.commit("account/logIn");
         }
     },
@@ -56,8 +56,8 @@ export default {
             }
         },
         logOut(){
-            AccountApi.logOut();
-            this.$store.commit("account/logOut");
+            AccountApi.logOut().
+            then(() => this.$store.commit("account/logOut"));
         }
     },
     data(){

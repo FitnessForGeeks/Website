@@ -2,7 +2,7 @@
     <v-container>
         <v-card dense class="login-form">
             <v-card-text>
-                <v-form v-model="valid" ref="vForm">
+                <v-form v-model="valid" ref="vForm" @keydown.enter.native="onFormEnter">
                     <v-text-field
                         label="Username"
                         v-model="username"
@@ -18,11 +18,7 @@
                         :rules="[rules.required('Password')]"
                         required
                     ></v-text-field>
-                    <v-checkbox
-                        label="Stay logged in?"
-                        v-model="stayLoggedIn"
-                    ></v-checkbox>
-                    <v-btn :disabled="!valid" @click="onSubmitButtonClicked"> Login </v-btn>
+                    <v-btn :disabled="!valid" @click="onSubmitButtonClicked" ref="submitButton"> Login </v-btn>
                 </v-form>
             </v-card-text>
         </v-card>
@@ -30,18 +26,17 @@
 </template>
 
 <script>
-import AccountApi from "@/assets/accountApi.js";
+import AccountApi from "@/assets/account.js";
 
 export default {
     mounted(){
-        if(AccountApi.isLoggedIn)
+        if(this.$store.getters.loggedIn)
             this.$router.push("/");
     },
     data(){
         return {
             username: "",
             password: "",
-            stayLoggedIn: false,
             valid: true,
             rules: {
                 required: name => val => {
@@ -53,11 +48,15 @@ export default {
         }
     },
     methods:{
+        onFormEnter(){
+            this.$refs.submitButton.$listeners.click()
+        },
         onSubmitButtonClicked(){
             if(this.valid)
-                AccountApi.signIn(this.username, this.password, this.stayLoggedIn, res => {
-                    this.$store.commit("account/logIn");
+                AccountApi.logIn(this.username, this.password)
+                .then(res => {
                     this.$router.push("/");
+                    this.$store.commit("account/logIn");
                 });
         }
     }
