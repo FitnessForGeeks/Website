@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import AccountApi from "@/assets/account.js";
+import { isLoggedIn } from "@/assets/account.js";
 
 export default {
     mounted(){
@@ -43,7 +43,7 @@ export default {
                     break;
             }
         })
-        if(AccountApi.isLoggedIn()){
+        if(isLoggedIn()){
             this.$store.commit("account/logIn");
         }
     },

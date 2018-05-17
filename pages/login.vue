@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import AccountApi from "@/assets/account.js";
+import { login } from "@/assets/account.js";
 
 export default {
     mounted(){
@@ -53,7 +53,7 @@ export default {
         },
         onSubmitButtonClicked(){
             if(this.valid)
-                AccountApi.logIn(this.username, this.password)
+                logIn(this.username, this.password)
                 .then(res => {
                     this.$router.push("/");
                     this.$store.commit("account/logIn");

@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import AccountApi from "@/assets/account.js";
+import { register } from "@/assets/account.js";
 
 export default {
     data(){
@@ -79,7 +79,7 @@ export default {
         },
         submit(){
             if(this.valid){
-                AccountApi.register(
+                register(
                     this.username,
                     this.password,
                     this.email
