@@ -1,8 +1,11 @@
 <template>
     <v-container>
-        <v-card dense class="signup-form">
+        <v-alert v-for="(alert, i) in alerts" :key="i" :color="alert.color" icon="info" dismissible :value="alert.value" @click="() => onCloseAlert(i)">
+            {{alert.message}}
+        </v-alert>
+        <v-card dense class="signup-form" :style="vCardStyles">
             <v-card-text>
-                <v-form v-model="valid">
+                <v-form v-model="valid" @keydown.enter.native="onFormEnter()">
                     <v-text-field
                         label="Username"
                         v-model="username"
@@ -29,7 +32,7 @@
                         :rules="[rules.required('Email'), rules.email]"
                         required
                     ></v-text-field>
-                    <v-btn :disabled="!valid" @click="onSubmitButtonClicked"> signup </v-btn>
+                    <v-btn ref="submitButton" :disabled="!valid" @click="submit"> register </v-btn>
                 </v-form>
             </v-card-text>
         </v-card>
@@ -37,11 +40,12 @@
 </template>
 
 <script>
-import AccountApi from "@/assets/accountApi.js";
+import AccountApi from "@/assets/account.js";
 
 export default {
     data(){
         return {
+            alerts:[],
             username: "",
             password: "",
             email: "",
@@ -67,22 +71,60 @@ export default {
         }
     },
     methods:{
-        onSubmitButtonClicked(){
+        onFormEnter(){
+            this.$refs.submitButton.$listeners.click()
+        },
+        onCloseAlert(i){
+            this.alerts.splice(i, 1);
+        },
+        submit(){
             if(this.valid){
-                AccountApi.signUp(
+                AccountApi.register(
                     this.username,
                     this.password,
                     this.email
-                );
+                )
+                .then(response => {
+                    this.alerts = [];
+                    this.$router.push("/login");
+                })
+                .catch(error => {
+                    const { status, data } = error.response;
+                    if(status === 409){
+                        if(data.field === "username"){
+                            this.alerts.push({
+                                color: "info",
+                                value: true,
+                                message: "Username is already taken"
+                            });
+                        }
+                        else if(data.field === "email"){
+                            this.alerts.push({
+                                color: "info",
+                                value: true,
+                                message: "Email is already being used"
+                            });
+                        }
+                    }
+                })
             }
+        }
+    },
+    computed:{
+        vCardStyles(){
+            return { "margin-top": (200 - this.alerts.length * 64) + "px"}
         }
     }
 }
 </script>
 
 <style>
+.alert{
+    z-index: 30px;
+}
 .signup-form{
     width: 400px;
-    margin: 200px auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>
