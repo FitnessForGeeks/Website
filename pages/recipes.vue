@@ -17,16 +17,16 @@
             >Search</v-btn>
         </v-form>
         <v-list dense class="result-list">
-            <v-list-tile avatar @click="">
+            <v-list-tile v-for="(recipe, i) in recipes" :key="i" avatar @click="">
                 <v-list-tile-avatar>
-                    <img src="/doc-images/avatars/avatar_user_devil.png" alt="" srcset="">
+                    <img :src="recipe.image" alt="" srcset="">
                 </v-list-tile-avatar>
                 <v-list-tile-content >
                     <v-list-tile-title>
-                        Kuchen
+                        {{ recipe.title }}
                     </v-list-tile-title>
                     <v-list-tile-sub-title>
-                        Calories: 2000
+                        Calories: {{ recipe.calories }}
                     </v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
@@ -38,7 +38,34 @@
 export default {
     data(){
         return{
-            query: ""
+            query: "",
+            recipes:[
+                {
+                    image: "/doc-images/avatars/avatar_user_devil.png",
+                    title: "Kuchen",
+                    calories: 2000
+                },
+                {
+                    image: "/doc-images/avatars/avatar_user_femalestudent_jogger.png",
+                    title: "Keks",
+                    calories: 739
+                },
+                {
+                    image: "/doc-images/avatars/avatar_user_hacker.png",
+                    title: "Pizza",
+                    calories: 495
+                },
+                {
+                    image: "/doc-images/avatars/avatar_user_woman_glasses.png",
+                    title: "Fisch",
+                    calories: 1630
+                },
+                {
+                    image: "/doc-images/avatars/avatar_user_grandmother.png",
+                    title: "Nudeln",
+                    calories: 1
+                },
+            ]
         }
     }
 }

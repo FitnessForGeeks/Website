@@ -54,7 +54,7 @@ export default {
         onSubmitButtonClicked(){
             if(this.valid)
                 this.$store
-                    .dispatch("account/logIn", {
+                    .dispatch("authentication/logIn", {
                         username: this.username,
                         password: this.password,
                     })

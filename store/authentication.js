@@ -6,6 +6,7 @@ export const state = () => ({
 
 export const mutations = {
     logIn(state, payload){
+        console.log(payload);
         state.account = payload;
     },
     logOut(state){
@@ -19,8 +20,7 @@ export const actions = {
             Account
                 .authenticate()
                 .then(response => {
-                    console.log(response);
-                    context.commit("logIn", {});
+                    context.commit("logIn", response.data);
                     resolve(response.data);
                 })
                 .catch(err => {
@@ -53,5 +53,8 @@ export const actions = {
 export const getters = {
     account(state){
         return state.account;
+    },
+    test(state){
+        return "test"
     }
 }

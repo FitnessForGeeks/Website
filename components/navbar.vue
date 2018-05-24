@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar dense tabs dark>
+    <v-toolbar dense tabs dark class="navbar">
         <v-toolbar-title class="margin-right"> FitnessForGeeks </v-toolbar-title>
         <v-toolbar-items>
             <v-btn v-for="(route, i) in this.routes" :key="i" :to="route.path" nuxt flat>
@@ -18,7 +18,7 @@
                 </v-list>
             </v-menu>
             <v-avatar>
-                <img class="user-avatar" src="http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg">
+                <img class="user-avatar" src="http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg" @click="() => this.$router.push('/profilePage')">
             </v-avatar>
         </v-toolbar-items>
         <v-toolbar-items v-if="!this.loggedIn" class="align-right">
@@ -34,18 +34,17 @@ export default {
     mounted(){
         this.$store.subscribe((mutation, state) => {
             switch(mutation.type){
-                case "account/logIn":
+                case "authentication/logIn":
                     this.loggedIn = true;
                     this.account = mutation.payload;
-                    console.log(mutation)
                     break;
-                case "account/logOut":
+                case "authentication/logOut":
                     this.account = null
                     this.loggedIn = false;
                     break;
             }
         })
-        this.$store.dispatch("account/authenticate").catch(response => console.log(response.status));
+        this.$store.dispatch("authentication/authenticate").catch(response => console.log(response.status));
     },
     methods:{
         onUserMenuClicked(event){
@@ -56,7 +55,7 @@ export default {
             }
         },
         logOut(){
-            this.$store.dispatch("account/logOut");
+            this.$store.dispatch("authentication/logOut");
         }
     },
     data(){
@@ -83,6 +82,9 @@ export default {
 </script>
 
 <style scoped>
+.navbar{
+    padding: 10px 0;
+}
 .margin-right {
     margin-right: 10px;
 }
