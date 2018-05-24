@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar dense tabs>
+    <v-toolbar dense tabs dark>
         <v-toolbar-title class="margin-right"> FitnessForGeeks </v-toolbar-title>
         <v-toolbar-items>
             <v-btn v-for="(route, i) in this.routes" :key="i" :to="route.path" nuxt flat>
@@ -8,7 +8,7 @@
         </v-toolbar-items>
         <v-toolbar-items v-if="this.loggedIn" class="align-right">
             <v-menu offset-y>
-                <v-btn slot="activator" flat class="dropdown-btn margin-right"> Username <i class="material-icons">arrow_drop_down</i> </v-btn>
+                <v-btn slot="activator" flat class="dropdown-btn margin-right"> {{account.username}} <i class="material-icons">arrow_drop_down</i> </v-btn>
                 <v-list>
                     <v-list-tile @click="onUserMenuClicked">
                         <v-list-tile-title id="logOut">
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import AccountApi from "@/assets/account.js";
 
 export default {
     mounted(){
@@ -37,15 +36,16 @@ export default {
             switch(mutation.type){
                 case "account/logIn":
                     this.loggedIn = true;
+                    this.account = mutation.payload;
+                    console.log(mutation)
                     break;
                 case "account/logOut":
+                    this.account = null
                     this.loggedIn = false;
                     break;
             }
         })
-        if(AccountApi.isLoggedIn()){
-            this.$store.commit("account/logIn");
-        }
+        this.$store.dispatch("account/authenticate").catch(response => console.log(response.status));
     },
     methods:{
         onUserMenuClicked(event){
@@ -56,13 +56,13 @@ export default {
             }
         },
         logOut(){
-            AccountApi.logOut().
-            then(() => this.$store.commit("account/logOut"));
+            this.$store.dispatch("account/logOut");
         }
     },
     data(){
         return {
             loggedIn: false,
+            accout: null,
             routes: [
                 {
                     path: "/",

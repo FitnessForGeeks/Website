@@ -18,7 +18,7 @@
                         :rules="[rules.required('Password')]"
                         required
                     ></v-text-field>
-                    <v-btn :disabled="!valid" @click="onSubmitButtonClicked" ref="submitButton"> Login </v-btn>
+                    <v-btn color="primary" :disabled="!valid" @click="onSubmitButtonClicked" ref="submitButton"> Login </v-btn>
                 </v-form>
             </v-card-text>
         </v-card>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import AccountApi from "@/assets/account.js";
+import { logIn } from "@/assets/account.js";
 
 export default {
     mounted(){
@@ -53,11 +53,12 @@ export default {
         },
         onSubmitButtonClicked(){
             if(this.valid)
-                AccountApi.logIn(this.username, this.password)
-                .then(res => {
-                    this.$router.push("/");
-                    this.$store.commit("account/logIn");
-                });
+                this.$store
+                    .dispatch("account/logIn", {
+                        username: this.username,
+                        password: this.password,
+                    })
+                    .then(() => this.$router.push("/"));
         }
     }
 }
