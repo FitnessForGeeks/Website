@@ -35,8 +35,10 @@ export default {
         this.$store.subscribe((mutation, state) => {
             switch(mutation.type){
                 case "authentication/logIn":
-                    this.loggedIn = true;
-                    this.account = mutation.payload;
+                    if(typeof mutation.payload === "object"){
+                        this.loggedIn = true;
+                        this.account = mutation.payload;
+                    }
                     break;
                 case "authentication/logOut":
                     this.account = null
@@ -44,7 +46,11 @@ export default {
                     break;
             }
         })
-        this.$store.dispatch("authentication/authenticate").catch(response => console.log(response.status));
+        this.$store.dispatch("authentication/authenticate").catch(err => {
+            if(err.request.status === 0){
+                console.log(err.message)
+            }
+        });
     },
     methods:{
         onUserMenuClicked(event){

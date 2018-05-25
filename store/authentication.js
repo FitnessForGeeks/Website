@@ -24,16 +24,20 @@ export const actions = {
                     resolve(response.data);
                 })
                 .catch(err => {
-                    reject(err.response)
+                    reject(err)
                 });
         });
     },
     logIn(context, payload){
         return new Promise((resolve, reject) => {
-            Account.logIn(payload.username, payload.password)
+            Account
+                .logIn(payload.username, payload.password)
                 .then(response => {
                     context.dispatch("authenticate");
                     resolve();
+                })
+                .catch(err => {
+                    console.log(err.message)
                 });
         });
     },
