@@ -17,8 +17,8 @@
                     </v-list-tile>
                 </v-list>
             </v-menu>
-            <v-avatar>
-                <img class="user-avatar" src="http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg" @click="() => this.$router.push('/profilePage')">
+            <v-avatar @click="() => this.$router.push('/profilePage')">
+                <img class="user-avatar" src="http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg">
             </v-avatar>
         </v-toolbar-items>
         <v-toolbar-items v-if="!this.loggedIn" class="align-right">

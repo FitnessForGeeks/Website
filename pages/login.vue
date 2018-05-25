@@ -4,6 +4,7 @@
             <v-card-text>
                 <v-form v-model="valid" ref="vForm" @keydown.enter.native="onFormEnter">
                     <v-text-field
+                        autofocus
                         label="Username"
                         v-model="username"
                         :rules="[rules.required('Username')]"

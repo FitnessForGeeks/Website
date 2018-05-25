@@ -84,7 +84,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .avatar{
   margin-top: -150px;
   margin-left: 30px;
