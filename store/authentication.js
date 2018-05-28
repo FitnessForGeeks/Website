@@ -6,7 +6,6 @@ export const state = () => ({
 
 export const mutations = {
     logIn(state, payload){
-        console.log(payload);
         state.account = payload;
     },
     logOut(state){

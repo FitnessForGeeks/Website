@@ -118,7 +118,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .alert{
     z-index: 30px;
 }
