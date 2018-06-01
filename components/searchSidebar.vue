@@ -15,7 +15,7 @@
                 depressed
                 color="primary"
                 @click="onSearch"
-            >Search</v-btn>
+            ><v-icon>search</v-icon></v-btn>
         </div>
         <v-divider></v-divider>
         <v-list v-if="!loading" dense class="result-list">
@@ -68,11 +68,12 @@ export default {
 }
 .sidebar{
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    min-width: 300px;
+    min-width: 400px;
 }
 .loading-circle{
     display: block;
     padding-top: 100px;
     margin: 0 auto;
 }
+
 </style>

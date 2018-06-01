@@ -3,7 +3,7 @@
         <search-sidebar 
             :loading="loadingRecipes" 
             :items="recipes" 
-            @search="" 
+            @search="onSearchRequest" 
             @new-index="i => recipeIndex = i"
         ></search-sidebar>
         <v-card v-if="!loadingRecipes && recipes[recipeIndex] !== undefined" class="recipe-view">
@@ -12,21 +12,32 @@
                     {{ recipes[recipeIndex].title }}
                 </p>
             </v-card-title>
-            <v-card-content class="recipe-content">
+            <div class="recipe-content">
                 <img :src="recipes[recipeIndex].image" width="600" height="300" class="recipe-image"></img>
-            </v-card-content>
+                <v-btn color="primary" class="recipe-eat-button" @click="onEatClicked">
+                    EAT IT
+                </v-btn>
+            </div>
         </v-card>
+        <v-snackbar v-if="selectedRecipe" left v-model="snackbarOpen" color="blue">
+            You have {{selectedRecipe.calories}} remaining calories for the day
+        </v-snackbar>
     </div>
 </template>
 
 <script>
-import { getAll } from "@/assets/recipe";
+import { getAll, getByQuery } from "@/assets/recipe";
 import axios from "axios";
 import SearchSidebar from "@/components/searchSidebar";
 
 export default {
     components:{
         "search-sidebar": SearchSidebar
+    },
+    computed: {
+        selectedRecipe(){
+            return this.recipes[this.recipeIndex];
+        }
     },
     mounted(){
         getAll()
@@ -40,7 +51,23 @@ export default {
         return{
             recipes:[],
             recipeIndex: 0,
+            snackbarOpen: false,
             loadingRecipes: true
+        }
+    },
+    methods:{
+        onSearchRequest(query){
+            console.log("searching...");
+            this.loadingRecipes = true;
+            getByQuery(query)
+            .then(res => {
+                this.loadingRecipes = false;
+                this.recipes = res.data;
+            })
+        },
+        onEatClicked(){
+            console.log(this.selectedRecipe.calories);
+            this.snackbarOpen = true;
         }
     }
 }
@@ -63,6 +90,12 @@ export default {
     font-size: 40px;
 }
 .recipe-content{
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    height: 100%;
+}
+.recipe-eat-button{
+    margin-left: auto;
 }
 </style>

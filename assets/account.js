@@ -1,6 +1,5 @@
 import sha256 from "js-sha256";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 const ACCOUNT_API_URL = "http://localhost:5000/api/account";
 
