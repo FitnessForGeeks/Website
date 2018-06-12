@@ -9,7 +9,7 @@
         <v-toolbar-items v-if="this.loggedIn" class="align-right">
             <v-menu offset-y>
                 <v-btn slot="activator" flat class="dropdown-btn margin-right"> {{account.username}} <i class="material-icons">arrow_drop_down</i> </v-btn>
-                <v-list>
+                <v-list dense>
                     <v-list-tile @click="onUserMenuClicked">
                         <v-list-tile-title id="logOut">
                             Log out
@@ -29,22 +29,24 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 
 export default {
-    mounted(){
-        this.$store.subscribe((mutation, state) => {
-            switch(mutation.type){
-                case "authentication/logIn":
-                    this.loggedIn = true;
-                    this.account = mutation.payload;
-                    break;
-                case "authentication/logOut":
-                    this.account = null
-                    this.loggedIn = false;
-                    break;
+    computed: {
+        ...mapGetters({
+            account: "account/account"
+        }),
+        loggedIn(){
+            return this.account != null;
+        }
+    },
+    created(){
+        this.$store.dispatch("account/authenticate").catch(err => {
+            console.log(err);
+            if(err.request.status === 0){
+                console.log(err.message)
             }
-        })
-        this.$store.dispatch("authentication/authenticate").catch(response => console.log(response.status));
+        });
     },
     methods:{
         onUserMenuClicked(event){
@@ -55,13 +57,11 @@ export default {
             }
         },
         logOut(){
-            this.$store.dispatch("authentication/logOut");
+            this.$store.dispatch("account/logOut");
         }
     },
     data(){
         return {
-            loggedIn: false,
-            accout: null,
             routes: [
                 {
                     path: "/",

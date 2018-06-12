@@ -19,7 +19,7 @@
                         :rules="[rules.required('Password')]"
                         required
                     ></v-text-field>
-                    <v-btn color="primary" :disabled="!valid" @click="onSubmitButtonClicked" ref="submitButton"> Login </v-btn>
+                    <loading-button :loading="loggingIn" color="primary" @click="onSubmitButtonClicked"> Login </loading-button>
                 </v-form>
             </v-card-text>
         </v-card>
@@ -28,17 +28,18 @@
 
 <script>
 import { logIn } from "@/assets/account.js";
+import loadingButton from "@/components/loadingButton";
 
 export default {
-    mounted(){
-        if(this.$store.getters.loggedIn)
-            this.$router.push("/");
+    components:{
+        "loading-button": loadingButton
     },
     data(){
         return {
             username: "",
             password: "",
             valid: true,
+            loggingIn: false,
             rules: {
                 required: name => val => {
                     if(val === "")
@@ -50,16 +51,22 @@ export default {
     },
     methods:{
         onFormEnter(){
-            this.$refs.submitButton.$listeners.click()
+            this.onSubmitButtonClicked();
         },
         onSubmitButtonClicked(){
-            if(this.valid)
+            if(this.valid){
+                this.loggingIn = true;
                 this.$store
-                    .dispatch("authentication/logIn", {
+                    .dispatch("account/logIn", {
                         username: this.username,
                         password: this.password,
                     })
-                    .then(() => this.$router.push("/"));
+                    .then(() => this.$router.push("/"))
+                    .catch(err => {
+                        this.loggingIn = false;
+                        console.log(err.message);
+                    });
+            }
         }
     }
 }
