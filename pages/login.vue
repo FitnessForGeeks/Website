@@ -57,7 +57,7 @@ export default {
             if(this.valid){
                 this.loggingIn = true;
                 this.$store
-                    .dispatch("authentication/logIn", {
+                    .dispatch("account/logIn", {
                         username: this.username,
                         password: this.password,
                     })

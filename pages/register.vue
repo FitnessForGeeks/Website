@@ -7,6 +7,7 @@
             <v-card-text>
                 <v-form v-model="valid" @keydown.enter.native="onFormEnter()">
                     <v-text-field
+                        autofocus
                         label="Username"
                         v-model="username"
                         :rules="[rules.required('Username')]"
@@ -32,7 +33,7 @@
                         :rules="[rules.required('Email'), rules.email]"
                         required
                     ></v-text-field>
-                    <v-btn ref="submitButton" :disabled="!valid" @click="submit"> register </v-btn>
+                    <v-btn ref="submitButton" color="primary" :disabled="!valid" @click="submit"> register </v-btn>
                 </v-form>
             </v-card-text>
         </v-card>

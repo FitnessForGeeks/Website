@@ -1,10 +1,11 @@
 <template>
-    <v-navigation-drawer class="sidebar">
+    <v-navigation-drawer permanent class="sidebar">
         <div class="search-form">
             <v-text-field
                 solo
                 flat
                 autofocus
+                @keydown.native.enter="() => onSearch()"
                 v-model="query"
                 class="search-field"
                 placeholder = "Search"
