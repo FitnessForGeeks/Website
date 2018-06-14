@@ -7,19 +7,34 @@
             </v-btn>
         </v-toolbar-items>
         <v-toolbar-items v-if="this.loggedIn" class="align-right">
-            <v-menu offset-y>
-                <v-btn slot="activator" flat class="dropdown-btn margin-right"> {{account.username}} <i class="material-icons">arrow_drop_down</i> </v-btn>
-                <v-list dense>
-                    <v-list-tile @click="onUserMenuClicked">
-                        <v-list-tile-title id="logOut">
-                            Log out
-                        </v-list-tile-title>
+            <v-menu offset-y min-width="300">
+                <div slot="activator">
+                    <v-btn flat class="dropdown-btn margin-right"> {{account.username}} <i class="material-icons">arrow_drop_down</i> </v-btn>
+                    <v-avatar>
+                        <img class="user-avatar" src="http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg">
+                    </v-avatar>
+                </div>
+                <v-list >
+                    <v-list-tile>
+                        <div class="calories-progress">
+                            <span class="dropdown-text">Remaining calories<span style="margin-left: auto">{{account.remainingCalories}}</span> </span>
+                            <v-progress-linear :value="caloriesProgress"></v-progress-linear>
+                        </div>
+                    </v-list-tile>
+                    <v-list-tile></v-list-tile>
+                    <v-divider></v-divider>
+                    <v-list-tile @click="() => this.$router.push('profilePage')" id="logOut" >
+                        <span class="dropdown-text">
+                            Go to profile <v-icon class="log-out-icon">person</v-icon>
+                        </span>
+                    </v-list-tile>
+                    <v-list-tile @click="onUserMenuClicked" id="logOut" >
+                        <span class="dropdown-text">
+                            Log out <v-icon class="log-out-icon">arrow_forward</v-icon>
+                        </span>
                     </v-list-tile>
                 </v-list>
             </v-menu>
-            <v-avatar @click="() => this.$router.push('/profilePage')">
-                <img class="user-avatar" src="http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg">
-            </v-avatar>
         </v-toolbar-items>
         <v-toolbar-items v-if="!this.loggedIn" class="align-right">
             <v-btn nuxt flat exact to="login"> login </v-btn>
@@ -38,6 +53,11 @@ export default {
         }),
         loggedIn(){
             return this.account != null;
+        },
+        caloriesProgress(){
+            const prog = this.account.remainingCalories / this.account.tdee * 100;
+            console.log(prog);
+            return prog;
         }
     },
     created(){
@@ -82,6 +102,20 @@ export default {
 </script>
 
 <style scoped>
+.calories-progress{
+    padding-top: 50px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.log-out-icon{
+    margin-left: auto;
+}
+.dropdown-text{
+    display: flex;
+    width: 100%;
+    font-size: 18px;
+}
 .navbar{
     padding: 10px 0;
 }
