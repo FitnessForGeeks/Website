@@ -1,9 +1,4 @@
 import * as Account from "@/assets/account";
-import moment from "moment";
-
-function getBMR(height, weight, age, isMale){
-    return parseInt(height * 6.25 + weight * 9.99 - age * 4.92 + (isMale? 5 : -161));
-}
 
 export const state = () => ({
     account: null
@@ -11,8 +6,7 @@ export const state = () => ({
 
 export const mutations = {
     logIn(state, payload){
-        payload.age = moment().diff(moment(payload.birthdate), "years");
-        state.account = Object.assign({}, { BMR: getBMR(payload.height, payload.weight, payload.age, payload.isMale ) }, payload);
+        state.account = payload;
     },
     logOut(state){
         state.account = null;
@@ -28,7 +22,6 @@ export const actions = {
             Account
                 .authenticate()
                 .then(response => {
-                    console.log(response);
                     context.commit("logIn", response.data);
                     resolve(response.data);
                 })
@@ -46,7 +39,7 @@ export const actions = {
                     resolve();
                 })
                 .catch(err => {
-                    console.log(err.message)
+                    reject(err);
                 });
         });
     },

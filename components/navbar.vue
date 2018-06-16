@@ -7,9 +7,11 @@
             </v-btn>
         </v-toolbar-items>
         <v-toolbar-items v-if="this.loggedIn" class="align-right">
-            <v-menu offset-y min-width="300">
+            <v-menu dark offset-y min-width="300">
                 <div slot="activator">
-                    <v-btn flat class="dropdown-btn margin-right"> {{account.username}} <i class="material-icons">arrow_drop_down</i> </v-btn>
+                    <span class="dropdown-btn margin-right"> 
+                        {{account.username}} <v-icon class="dropdown-arrow-username">arrow_drop_down</v-icon>
+                    </span>
                     <v-avatar>
                         <img class="user-avatar" src="http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg">
                     </v-avatar>
@@ -23,14 +25,9 @@
                     </v-list-tile>
                     <v-list-tile></v-list-tile>
                     <v-divider></v-divider>
-                    <v-list-tile @click="() => this.$router.push('profilePage')" id="logOut" >
+                    <v-list-tile v-for="(btn, i) in dropdownButtons" :key="i" @click="btn.onClick">
                         <span class="dropdown-text">
-                            Go to profile <v-icon class="log-out-icon">person</v-icon>
-                        </span>
-                    </v-list-tile>
-                    <v-list-tile @click="onUserMenuClicked" id="logOut" >
-                        <span class="dropdown-text">
-                            Log out <v-icon class="log-out-icon">arrow_forward</v-icon>
+                            {{btn.text}} <v-icon class="dropdown-menu-icon">{{btn.icon}}</v-icon>
                         </span>
                     </v-list-tile>
                 </v-list>
@@ -56,13 +53,11 @@ export default {
         },
         caloriesProgress(){
             const prog = this.account.remainingCalories / this.account.tdee * 100;
-            console.log(prog);
-            return prog;
+            return prog < 0 ? 0 : prog;
         }
     },
     created(){
         this.$store.dispatch("account/authenticate").catch(err => {
-            console.log(err);
             if(err.request.status === 0){
                 console.log(err.message)
             }
@@ -95,6 +90,23 @@ export default {
                     path: "/community",
                     name: "Community"
                 }
+            ],
+            dropdownButtons: [
+                {
+                    text: "Edit profile",
+                    icon: "edit",
+                    onClick: () => this.$router.push("profilePage")
+                },
+                {
+                    text: "Go to profile",
+                    icon: "person",
+                    onClick: () => this.$router.push("profilePage")
+                },
+                {
+                    text: "Log out",
+                    icon: "arrow_forward",
+                    onClick: this.logOut
+                },
             ]
         }
     }
@@ -102,13 +114,16 @@ export default {
 </script>
 
 <style scoped>
+.dropdown-arrow-username{
+    margin-bottom: 5px;
+}
 .calories-progress{
     padding-top: 50px;
     display: flex;
     width: 100%;
     flex-direction: column;
 }
-.log-out-icon{
+.dropdown-menu-icon{
     margin-left: auto;
 }
 .dropdown-text{

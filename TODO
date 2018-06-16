@@ -1,0 +1,11 @@
+
+Todo:
+  ✔ Add description to recipe layout @started(18-06-16 16:02) @done(18-06-16 16:22) @lasted(20m51s)
+  ✔ Add custom error display @done(18-06-16 19:03)
+  ☐ Tell the user when the login failed due to wrong password and/or username.
+  ☐ Somehow notify the user when a request fails due to network error
+  ☐ Create recipe calendar overview
+  ☐ Add reviews to the recipe layout
+
+Bugs:
+  ✔ Clicking the logout button when logged in sometimes doesn't work. @done(18-06-16 16:00)

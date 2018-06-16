@@ -42,8 +42,14 @@
 
 <script>
 import { register } from "@/assets/account.js";
+import { mapGetters } from "vuex";
 
 export default {
+    beforeUpdate(){
+        if(this.account){
+            this.$router.push("/");
+        }
+    },
     data(){
         return {
             alerts:[],
@@ -112,6 +118,9 @@ export default {
         }
     },
     computed:{
+        ...mapGetters({
+            account: "account/account"
+        }),
         vCardStyles(){
             return { "margin-top": (200 - this.alerts.length * 64) + "px"}
         }

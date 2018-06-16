@@ -28,11 +28,22 @@
 
 <script>
 import { logIn } from "@/assets/account.js";
+import { mapGetters } from "vuex";
 import loadingButton from "@/components/loadingButton";
 
 export default {
+    computed:{
+        ...mapGetters({
+            account: "account/account"
+        })
+    },
     components:{
         "loading-button": loadingButton
+    },
+    beforeUpdate(){
+        if(this.account){
+            this.$router.push("/");
+        }
     },
     data(){
         return {
