@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer permanent class="sidebar">
+    <v-navigation-drawer permanent :fixed="true" class="sidebar">
         <div class="search-form">
             <v-text-field
                 solo
@@ -70,6 +70,7 @@ export default {
 .sidebar{
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     min-width: 400px;
+    margin-top: 68px !important;
 }
 .loading-circle{
     display: block;

@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar dense tabs dark class="navbar">
+    <v-toolbar dense dark flat class="navbar" fixed>
         <v-toolbar-title class="margin-right"> FitnessForGeeks </v-toolbar-title>
         <v-toolbar-items>
             <v-btn v-for="(route, i) in this.routes" :key="i" :to="route.path" nuxt flat>
@@ -55,13 +55,6 @@ export default {
             const prog = this.account.remainingCalories / this.account.tdee * 100;
             return prog < 0 ? 0 : prog;
         }
-    },
-    created(){
-        this.$store.dispatch("account/authenticate").catch(err => {
-            if(err.request.status === 0){
-                console.log(err.message)
-            }
-        });
     },
     methods:{
         onUserMenuClicked(event){
