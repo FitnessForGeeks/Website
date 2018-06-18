@@ -51,7 +51,7 @@ export default {
 }
 </script>
 <style scoped>
-.page{
+.page {
     margin-top: 34px;
 }
 .fade-enter-active, .fade-leave-active {

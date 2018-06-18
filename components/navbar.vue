@@ -13,7 +13,7 @@
                         {{account.username}} <v-icon class="dropdown-arrow-username">arrow_drop_down</v-icon>
                     </span>
                     <v-avatar>
-                        <img class="user-avatar" src="http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg">
+                        <img class="user-avatar" :src="account.profilePicture">
                     </v-avatar>
                 </div>
                 <v-list >
@@ -85,6 +85,16 @@ export default {
                 }
             ],
             dropdownButtons: [
+                {
+                    text: "Overview",
+                    icon: "book",
+                    onClick: () => this.$router.push("profilePage")
+                },
+                {
+                    text: "My Recipes",
+                    icon: "list",
+                    onClick: () => this.$router.push("recipes")
+                },
                 {
                     text: "Edit profile",
                     icon: "edit",
