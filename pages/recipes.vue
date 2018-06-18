@@ -23,72 +23,71 @@
 import { getAll, getByQuery } from "@/assets/recipe";
 import { mapGetters } from "vuex";
 import axios from "axios";
-import Recipe from "@/components/recipe.vue";
+import Recipe from "@/components/recipes/recipe.vue";
 import SearchSidebar from "@/components/searchSidebar";
 
 export default {
-  components: {
-    SearchSidebar,
-    Recipe
-  },
-  computed: {
-    ...mapGetters({
-      account: "account/account"
-    }),
-    selectedRecipe() {
-      return this.recipes[this.recipeIndex];
+    components: {
+        SearchSidebar,
+        Recipe
     },
-    isForbidden() {
-      return this.account.birthdate === null;
+    computed: {
+        ...mapGetters({
+            account: "account/account"
+        }),
+        selectedRecipe() {
+            return this.recipes[this.recipeIndex];
+        }
+    },
+    created() {
+        if (this.account === null) {
+            this.$router.push("/login");
+        }
+    },
+    mounted() {
+        if(this.account){
+            getAll()
+            .then(res => {
+                this.loadingRecipes = false;
+                this.recipes = res.data;
+                this.$nextTick(() => {
+                    this.$refs.recipe.loadReviews(this.recipes[this.recipeIndex].id);
+                });
+            })
+            .catch(err => console.log(err));
+        }
+    },
+    watch:{
+        account: function(val){
+            if(val === null){
+                this.$router.push("/");
+            }
+        }
+    },
+    data() {
+        return {
+            recipes: [],
+            reviews: [],
+            recipeIndex: 0,
+            loadingRecipes: true
+        };
+    },
+    methods: {
+        newRecipeIndex(i) {
+            this.recipeIndex = i;
+            window.scrollTo(0, 0);
+            this.$nextTick(() => {
+                this.$refs.recipe.loadReviews(this.recipes[this.recipeIndex].id);
+            });
+        },
+        onSearchRequest(query) {
+            this.loadingRecipes = true;
+            getByQuery(query).then(res => {
+                this.loadingRecipes = false;
+                this.recipes = res.data;
+            });
+        },
     }
-  },
-  created() {
-    if (this.account === null) {
-        this.$router.push("/login");
-    }
-  },
-  mounted() {
-    getAll()
-      .then(res => {
-        this.loadingRecipes = false;
-        this.recipes = res.data;
-        this.$nextTick(() => {
-            this.$refs.recipe.loadReviews(this.recipes[this.recipeIndex].id);
-        });
-      })
-      .catch(err => console.log(err));
-  },
-  watch:{
-      account: function(val){
-          if(val === null){
-              this.$router.push("/");
-          }
-      }
-  },
-  data() {
-    return {
-      recipes: [],
-      reviews: [],
-      recipeIndex: 0,
-      loadingRecipes: true
-    };
-  },
-  methods: {
-    newRecipeIndex(i) {
-        this.recipeIndex = i;
-        window.scrollTo(0, 0);
-        this.$nextTick(() => {
-            this.$refs.recipe.loadReviews(this.recipes[this.recipeIndex].id);
-        });
-    },
-    onSearchRequest(query) {
-        this.loadingRecipes = true;
-        getByQuery(query).then(res => {
-            this.loadingRecipes = false;
-            this.recipes = res.data;
-        });
-    },
-  }
 };
 </script>
 

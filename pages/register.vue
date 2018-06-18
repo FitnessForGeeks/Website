@@ -1,29 +1,14 @@
 <template>
     <v-container>
-        <v-alert v-for="(alert, i) in alerts" :key="i" :color="alert.color" icon="info" dismissible :value="alert.value" @click="() => onCloseAlert(i)">
-            {{alert.message}}
-        </v-alert>
-        <v-card dense class="signup-form" :style="vCardStyles">
+        <v-card dense class="signup-form">
             <v-card-text>
-                <v-form v-model="valid" @keydown.enter.native="onFormEnter()">
+                <v-form v-model="valid" @keydown.enter.native="submit">
                     <v-text-field
                         autofocus
                         label="Username"
                         v-model="username"
                         :rules="[rules.required('Username')]"
-                        required
-                    ></v-text-field>
-                    <v-text-field
-                        label="Password"
-                        v-model="password"
-                        type="password"
-                        :rules="[rules.required('Password')]"
-                        required
-                    ></v-text-field>
-                    <v-text-field
-                        label="Confirm Password"
-                        type="password"
-                        :rules="[rules.required('Confirm Password'), rules.equals('password')]"
+                        prepend-icon="person"
                         required
                     ></v-text-field>
                     <v-text-field
@@ -31,9 +16,30 @@
                         v-model="email"
                         type="email"
                         :rules="[rules.required('Email'), rules.email]"
+                        prepend-icon="email"
                         required
                     ></v-text-field>
-                    <v-btn ref="submitButton" color="primary" :disabled="!valid" @click="submit"> register </v-btn>
+                    <v-text-field
+                        label="Password"
+                        v-model="password"
+                        type="password"
+                        :rules="[rules.required('Password')]"
+                        prepend-icon="lock"
+                        required
+                    ></v-text-field>
+                    <v-text-field
+                        label="Confirm Password"
+                        type="password"
+                        :rules="[rules.required('Confirm Password'), rules.equals('password')]"
+                        prepend-icon="lock"
+                        required
+                    ></v-text-field>
+                    <v-btn 
+                        ref="submitButton" 
+                        :disabled="!valid" 
+                        @click="submit"
+                        class="signup-button"
+                    > register </v-btn>
                 </v-form>
             </v-card-text>
         </v-card>
@@ -78,9 +84,6 @@ export default {
         }
     },
     methods:{
-        onFormEnter(){
-            this.$refs.submitButton.$listeners.click()
-        },
         onCloseAlert(i){
             this.alerts.splice(i, 1);
         },
@@ -120,21 +123,17 @@ export default {
     computed:{
         ...mapGetters({
             account: "account/account"
-        }),
-        vCardStyles(){
-            return { "margin-top": (200 - this.alerts.length * 64) + "px"}
-        }
+        })
     }
 }
 </script>
 
 <style scoped>
-.alert{
-    z-index: 30px;
-}
 .signup-form{
     width: 400px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 200px auto;
+}
+.signup-button{
+    margin-left: 272px;
 }
 </style>

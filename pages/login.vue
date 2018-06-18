@@ -9,6 +9,7 @@
                         v-model="username"
                         :rules="[rules.required('Username')]"
                         id="username"
+                        prepend-icon="person"
                         required
                     ></v-text-field>
                     <v-text-field
@@ -17,9 +18,15 @@
                         type="password"
                         id="password"
                         :rules="[rules.required('Password')]"
+                        prepend-icon="lock"
                         required
                     ></v-text-field>
-                    <loading-button :loading="loggingIn" color="primary" @click="onSubmitButtonClicked"> Login </loading-button>
+                    <loading-button 
+                        class="login-button" 
+                        :loading="loggingIn" 
+                        @click="onSubmitButtonClicked"
+                        :disabled="!valid"
+                    > Login </loading-button>
                 </v-form>
             </v-card-text>
         </v-card>
@@ -87,5 +94,8 @@ export default {
 .login-form{
     width: 400px;
     margin: 200px auto;
+}
+.login-button{
+    margin-left: 280px;
 }
 </style>

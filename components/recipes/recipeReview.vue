@@ -2,7 +2,7 @@
     <div class="recipe-review">
         <div class="left">
             <v-avatar :size="70">
-                <img :src="review.profilePicture"></img>
+                <img :src="review.profilePicture"/>
             </v-avatar>
             <span class="username">{{review.username}}</span>
         </div>
@@ -11,10 +11,12 @@
                 :show-rating="false" 
                 read-only 
                 :increment="0.5"
-                :star-size="25"
+                :star-size="20"
                 v-model="review.rating"
             ></star-rating>
-            <span class="text">
+            <span
+                class="text"
+            >
                 {{review.text}}
             </span>
         </div>
@@ -39,13 +41,14 @@ export default {
 
 .text {
   font-size: 20px;
+  padding: 5px;
+  word-wrap: break-word;
 }
 
 .recipe-review {
   display: flex;
   padding-top: 40px;
   padding-bottom: 20px;
-  border-bottom: 1px solid grey;
   width: 100%;
 }
 
@@ -58,5 +61,7 @@ export default {
 .right {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
+
 </style>

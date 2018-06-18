@@ -1,5 +1,5 @@
 <template>
-    <v-btn v-bind="btnProps" v-on="this.$listeners"> 
+    <v-btn color="primary" :disabled="disabled" v-on="this.$listeners"> 
         <v-progress-circular v-if="loading" size="25" indeterminate></v-progress-circular>
         <span v-else>
             <slot></slot>
@@ -11,15 +11,7 @@
 export default {
     mounted(){
     },
-    props: [ "loading", "color" ],
-    computed:{
-        btnProps(){
-            return Object
-                	.keys(this.$props)
-                    .filter( key => !/^loading$/.test(key) )
-                    .map(key => ({ [key]: this.$props[key] }));
-        }
-    }
+    props: [ "loading", "disabled"],
 }
 </script>
 
