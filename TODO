@@ -2,12 +2,12 @@
 Todo:
   ✔ Add description to recipe layout @started(18-06-16 16:02) @done(18-06-16 16:22) @lasted(20m51s)
   ✔ Add custom error display @done(18-06-16 19:03)
-  ☐ Tell the user when the login failed due to wrong password and/or username.
+  ✔ Tell the user when the login failed due to wrong password and/or username. @done(18-06-19 21:17)
   ☐ Somehow notify the user when a request fails due to network error
-  ☐ Create recipe calendar overview
+  ☐ Create recipe overview
     ☐ Add a way to create a recipe
   ☐ Create a fucking home page it is still empty lol
-  ☐ Add backend for eat it button
+  ✔ Add backend for eat it button @done(18-06-19 21:17)
   ✔ refactor recipes component @done(18-06-18 17:26)
   ✔ Add ingredients to the recipe layout @done(18-06-17 16:47)
   ✔ Add reviews to the recipe layout @started(18-06-17 17:45) @done(18-06-17 20:13) @lasted(2h28m53s)
