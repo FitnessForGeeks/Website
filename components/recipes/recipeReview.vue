@@ -36,8 +36,7 @@ export default {
     },
     computed:{
         postedSince(){
-            console.log(this.review.createdAt)
-            return moment().from(moment(this.review.createdAt))  ;
+            return moment(this.review.createdAt.slice(0, -1)).fromNow();
         }
     },
     props:["review"]
