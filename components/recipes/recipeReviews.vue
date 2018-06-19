@@ -47,7 +47,6 @@ export default {
                 this.$nextTick(() => window.scrollTo(0, document.body.scrollHeight));
                 this.isNewRecipe = false;
             }
-            debugger;
         }
     },
     methods:{

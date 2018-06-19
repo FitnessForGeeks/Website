@@ -7,13 +7,16 @@
             <span class="username">{{review.username}}</span>
         </div>
         <div class="right">
-            <star-rating
-                :show-rating="false" 
-                read-only 
-                :increment="0.5"
-                :star-size="20"
-                v-model="review.rating"
-            ></star-rating>
+            <div class="right-top">
+                <star-rating
+                    :show-rating="false" 
+                    read-only 
+                    :increment="0.5"
+                    :star-size="20"
+                    v-model="review.rating"
+                ></star-rating>
+                <span class="date">{{postedSince}}</span>
+            </div>
             <span
                 class="text"
             >
@@ -25,10 +28,17 @@
 
 <script>
 import StarRating from "vue-star-rating";
+import moment from "moment";
 
 export default {
     components:{
         StarRating,
+    },
+    computed:{
+        postedSince(){
+            console.log(this.review.createdAt)
+            return moment().from(moment(this.review.createdAt))  ;
+        }
     },
     props:["review"]
 }
@@ -62,6 +72,14 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.right-top{
+    display: flex;
+}
+
+.date{
+    margin-left: 10px;
 }
 
 </style>
