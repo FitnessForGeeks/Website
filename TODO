@@ -7,14 +7,20 @@ Todo:
   ☐ Create recipe calendar overview
     ☐ Add a way to create a recipe
   ☐ Create a fucking home page it is still empty lol
+  ☐ Add backend for eat it button
   ✔ refactor recipes component @done(18-06-18 17:26)
   ✔ Add ingredients to the recipe layout @done(18-06-17 16:47)
   ✔ Add reviews to the recipe layout @started(18-06-17 17:45) @done(18-06-17 20:13) @lasted(2h28m53s)
   ✔ Finish the design for reviews @done(18-06-18 17:26)
   ✔ Add a way to write reviews @done(18-06-18 21:50)
   ✔ Add a paginator for recipe reviews @done(18-06-18 21:51)
-  ✔ The user shouldn't be logged in after the page is rendered, because it will result in some unpleasant screen flashing. @started(18-06-17 13:43) @done(18-06-17 15:52) @lasted(2h9m28s)
-     ✔ Maybe display a short loading animation like in reddit until the authentication either failed or succeeded. @done(18-06-17 15:52)
+  ☐ The user shouldn't be logged in after the page is rendered, because it will result in some unpleasant screen flashing. @started(18-06-17 13:43)
+     ✘ Maybe display a short loading animation like in reddit until the authentication either failed or succeeded. @cancelled(18-06-19 18:50)
+     ☐ Maybe use placeholders like youtube
+
 
 Bugs:
   ✔ Clicking the logout button when logged in sometimes doesn't work. @done(18-06-16 16:00)
+  ✔ Refreshing the recipes page will result in $refs.recipe to be undefined in the loadRecipes function of the recipes component @done(18-06-19 17:36)
+    ✔ Maybe allow the user to see the recipes without login in @done(18-06-19 17:37)
+  ✔ Clicking on a different recipe after the page was loaded results in the auto scroll down functionality when skipping through review pages to stop working @done(18-06-19 17:40)

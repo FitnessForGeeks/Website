@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div class="root" v-if="account">
         <div class="left">
             <v-avatar :size="70">
                 <img :src="account.profilePicture"/>

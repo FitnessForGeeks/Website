@@ -29,9 +29,10 @@
             <recipe-directions
                 :directions="recipe.directions"
             ></recipe-directions>
-            <div class="actions">
+            <div class="actions" v-if="account">
                 <v-btn color="primary" class="eat-button" @click="onEatClicked">
-                    EAT IT
+                    <img src="http://localhost:5000/api/static/eat-it-button" width="20">
+                    EAT IT 
                 </v-btn>
             </div>
             <h1 class="reviews-title">Reviews</h1>
@@ -43,7 +44,7 @@
                 ref="reviews"
                 :reviews="reviews"
                 :recipe="recipe"
-                @next-page="onNextReviewPage"
+                @load-page="onLoadReviewsPage"
             >
             </recipe-reviews>
             
@@ -53,7 +54,7 @@
 
 <script>
 import { 
-    getAllByAccountIdWithPage as getAllReviewsByAccountIdWithPage,
+    getAllByRecipeId as getAllReviewsByRecipeId,
     post as postReview
 } from "@/assets/review";
 import { mapGetters } from "vuex";
@@ -88,8 +89,15 @@ export default {
         })
     },
     methods: {
-        loadReviews(id, pageNumber = 1){
-            getAllReviewsByAccountIdWithPage(id, pageNumber).then(
+        loadReviews(id, pageNumber = 1, sortType){
+            if(!sortType)
+                sortType = { 
+                    text: "NEWEST",
+                    isAscending: true
+                };
+            getAllReviewsByRecipeId(id, pageNumber, {
+                sortType
+            }).then(
                 res => {
                     this.reviews = res.data;
                 }
@@ -112,8 +120,8 @@ export default {
                 this.recipe.reviewCount++;
             });
         },
-        onNextReviewPage(i){
-            this.loadReviews(this.account.id, i);
+        onLoadReviewsPage(newPageIndex, sortType){
+            this.loadReviews(this.recipe.id, newPageIndex, sortType);
         }
     }
 }
@@ -121,13 +129,15 @@ export default {
 
 <style scoped>
 .image {
-  margin-right: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+    box-shadow: 0px 1px 10px rgba(0,0,0,0.20), 0 2px 2px rgba(0,0,0,0.24);
 }
 
 .reviews-title {
     font-size: 30px;
     text-align: center;
-    margin-bottom: 50px;
+    margin: 50px 0;
 }
 
 .header-title {
@@ -139,45 +149,49 @@ export default {
 }
 
 .content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
 }
 
 .eat-button {
-  margin-left: auto;
+    margin-left: auto;
+}
+
+.eat-button img{
+    margin-right: 10px;
 }
 
 .actions {
-  display: flex;
-  width: 100%;
-  padding: 100px 200px;
+    display: flex;
+    width: 100%;
+    padding: 100px 200px;
 }
 
 .button-navigator {
-  color: blue;
+    color: blue;
 }
 
 .owner {
-  font-style: italic;
-  color: grey;
+    font-style: italic;
+    color: grey;
 }
 
 .description {
-  width: 400px;
-  margin: 0 auto;
-  overflow-wrap: break-word;
+    width: 400px;
+    margin: 0 auto;
+    overflow-wrap: break-word;
 }
 
 .header-rating {
-  width: 250px;
-  margin: 0 auto;
+    width: 250px;
+    margin: 0 auto;
 }
 
 .header-left {
-  text-align: center;
-  flex-grow: 1;
+    text-align: center;
+    flex-grow: 1;
 }
 
 

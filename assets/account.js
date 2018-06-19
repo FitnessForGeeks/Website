@@ -31,3 +31,16 @@ export function register(username, password, email){
     };
     return axios.post(ACCOUNT_API_URL, data)
 };
+
+export function eatRecipe(recipeId, accountId){
+    return axios.post(ACCOUNT_API_URL + "/eatRecipe", {}, {
+        params: {
+            accountId,
+            recipeId
+        }
+    })
+}
+
+export function getCurrentEatenRecipes(accountId){
+    return axios.get(ACCOUNT_API_URL + `/eatenRecipes/today?accountId=${accountId}`);
+}

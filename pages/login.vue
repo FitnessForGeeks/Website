@@ -49,11 +49,6 @@ export default {
     components:{
         "loading-button": loadingButton
     },
-    beforeUpdate(){
-        if(this.account){
-            this.$router.push("/");
-        }
-    },
     data(){
         return {
             username: "",
@@ -88,8 +83,7 @@ export default {
                         password: this.password,
                     })
                     .then(res => {
-                        sessionStorage.setItem("account", JSON.stringify(res.data));
-                        this.$router.push("/")
+                        this.$router.push(this.$route.query.redirectPath || "/")
                     })
                     .catch(err => {
                         this.loggingIn = false;

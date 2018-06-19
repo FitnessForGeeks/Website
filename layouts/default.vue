@@ -1,31 +1,20 @@
 <template>
     <div class="page">
-        <div v-show="authenticating" class="loading-screen">
-            <div class="wrapper">
-                <span>Fitness For Geeks</span>
-                <p>Authenticating</p>
-                <spinner fadeIn="quarter" class="spinner" name="cube-grid" color="#adacef"/>
-            </div>
+        <div>
+            <v-app class="app">
+                <navbar></navbar>
+                <nuxt class="page-component"></nuxt>
+            </v-app>
         </div>
-        <transition appear>
-            <div v-show="!authenticating">
-                <v-app class="app">
-                    <navbar></navbar>
-                    <nuxt class="page"></nuxt>
-                </v-app>
-            </div>
-        </transition>
     </div>
 </template>
 <script>
 import navbar from "@/components/navbar.vue";
-import Spinner from "vue-spinkit";
 import { mapGetters } from "vuex";
 
 export default {
     data(){
         return {
-            authenticating: true
         }
     },
     computed:{
@@ -34,37 +23,21 @@ export default {
         })
     },
     mounted(){
-        const acc = JSON.parse(sessionStorage.getItem("account"));
-        console.log(acc);
-        if(acc){
-            this.$store.commit("account/logIn", acc);
-            this.authenticating = false;
-        }
-        else{
-            this.$store.dispatch("account/authenticate")
-            .catch(err => {
-                if(err.request.status === 0){
-                    console.log(err.message)
-                }
-            })
-            .then(res => {
-                if(res)
-                    sessionStorage.setItem("account", JSON.stringify(res.data));
-            })
-            .finally(() => {
-                setTimeout(() => this.authenticating = false, 1000);
-            });
-        }
+        this.$store.dispatch("account/authenticate")
+        .catch(err => {
+            if(err.request.status === 0){
+                console.log(err.message)
+            }
+        })
     },
     components:{
-        navbar,
-        Spinner
+        navbar
     }
 }
 </script>
 <style scoped>
-.page {
-    margin-top: 34px;
+.page-component {
+    margin-top: 68px;
 }
 .fade-enter-active, .fade-leave-active {
     transition: opacity .5s

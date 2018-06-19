@@ -34,7 +34,7 @@
             </v-menu>
         </v-toolbar-items>
         <v-toolbar-items v-if="!this.loggedIn" class="align-right">
-            <v-btn nuxt flat exact to="login"> login </v-btn>
+            <v-btn nuxt flat exact @click="goToLogin"> login </v-btn>
             <v-btn nuxt flat exact to="register"> register </v-btn>
         </v-toolbar-items>
     </v-toolbar>
@@ -57,16 +57,16 @@ export default {
         }
     },
     methods:{
-        onUserMenuClicked(event){
-            switch(event.target.id){
-                case "logOut":
-                    this.logOut();
-                    break;
-            }
-        },
         logOut(){
-            sessionStorage.removeItem("account");
             this.$store.dispatch("account/logOut");
+        },
+        goToLogin(){
+            this.$router.push({
+                path: "login",
+                query: {
+                    redirectPath: this.$route.path
+                }
+            })
         }
     },
     data(){
@@ -79,17 +79,13 @@ export default {
                 {
                     path: "/recipes",
                     name: "Recipes"
-                },
-                {
-                    path: "/community",
-                    name: "Community"
                 }
             ],
             dropdownButtons: [
                 {
                     text: "Overview",
                     icon: "book",
-                    onClick: () => this.$router.push("profilePage")
+                    onClick: () => this.$router.push("overview")
                 },
                 {
                     text: "My Recipes",
@@ -99,7 +95,7 @@ export default {
                 {
                     text: "Edit profile",
                     icon: "edit",
-                    onClick: () => this.$router.push("profilePage")
+                    onClick: () => this.$router.push("editProfile")
                 },
                 {
                     text: "Go to profile",

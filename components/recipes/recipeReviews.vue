@@ -1,5 +1,20 @@
 <template>
     <div class="root">
+        <v-menu offset-y>
+            <v-btn 
+                flat 
+                small
+                slot="activator"
+                class="sort-btn"
+            > 
+                <v-icon class="sort-btn-icon">sort</v-icon>sort by
+            </v-btn>
+            <v-list dense>
+                <v-list-tile v-for="(item, i) in sortMenuItems" :key="i" @click="item.onClick(i)">
+                    {{item.text}} <v-icon small class="sort-menu-item-icon">{{item.icon}}</v-icon>
+                </v-list-tile>
+            </v-list>
+        </v-menu>
         <ul class="recipe-reviews">
             <li v-for="(review, i) in reviews" :key="i">
                 <recipe-review
@@ -30,6 +45,41 @@ export default {
     data(){
         return {
             currentPage: 1,
+            selectedSortIndex: 0,
+            sortMenuItems: [
+                {
+                    text: "NEWEST",
+                    icon: "arrow_upward",
+                    onClick: i => {
+                        this.selectedSortIndex = i;
+                        this.onNextPage();
+                    }
+                },
+                {
+                    text: "NEWEST",
+                    icon: "arrow_downward",
+                    onClick: i => {
+                        this.selectedSortIndex = i;
+                        this.onNextPage();
+                    }
+                },
+                {
+                    text: "RATING",
+                    icon: "arrow_upward",
+                    onClick: i => {
+                        this.selectedSortIndex = i;
+                        this.onNextPage();
+                    }
+                },
+                {
+                    text: "RATING",
+                    icon: "arrow_downward",
+                    onClick: i => {
+                        this.selectedSortIndex = i;
+                        this.onNextPage();
+                    }
+                },
+            ],
             isNewRecipe: false
         }
     },
@@ -45,13 +95,20 @@ export default {
         reviews(newVal, oldVal){
             if(oldVal.length !== 0 && !this.isNewRecipe){
                 this.$nextTick(() => window.scrollTo(0, document.body.scrollHeight));
-                this.isNewRecipe = false;
             }
+
+            if(this.isNewRecipe)
+                this.isNewRecipe = false;
         }
     },
     methods:{
-        onNextPage(newPageIndex){
-            this.$emit("next-page", newPageIndex);
+        onNextPage(){
+            const { text, icon } = this.sortMenuItems[this.selectedSortIndex];
+            const isAscending = icon === "arrow_upward";
+            this.$emit("load-page", this.currentPage, {
+                text,
+                isAscending 
+            });
         },
         onNewRecipe(){
             this.isNewRecipe = true;
@@ -63,8 +120,20 @@ export default {
 
 <style scoped>
 
-.recipe-reviews {
+.sort-menu-item-icon{
+    margin-left: auto;
+}
+
+.sort-btn-icon{
+    margin-right: 10px;
+}
+
+.root{
     padding: 0 100px;
+    padding-bottom: 50px;
+}
+
+.recipe-reviews {
     margin-bottom: 50px;
 }
 

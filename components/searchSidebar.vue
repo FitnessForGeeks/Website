@@ -68,7 +68,6 @@ export default {
     margin: 0 auto;
 }
 .sidebar{
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     min-width: 400px;
     margin-top: 68px !important;
 }

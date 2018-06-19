@@ -1,23 +1,30 @@
 import * as Account from "@/assets/account";
 
 export const state = () => ({
-    account: null
+    account: null,
+    authenticating: true
 })
 
 export const mutations = {
     logIn(state, payload){
         state.account = payload;
+        state.authenticating = false;
     },
     logOut(state){
         state.account = null;
     },
     eatRecipe(state, payload){
-        state.account.remainingCalories = (state.account.remainingCalories || state.account.BMR) - payload.calories;
+        state.account.remainingCalories = (state.account.remainingCalories || state.account.tdee) - payload.calories;
+    },
+    authenticating(state, payload){
+        if(!state.authenticating)
+            state.authenticating = true;
     }
 }
 
 export const actions = {
     authenticate(context){
+        context.commit("authenticating");
         return new Promise((resolve, reject) => {
             Account
                 .authenticate()
@@ -27,10 +34,11 @@ export const actions = {
                 })
                 .catch(err => {
                     reject(err)
-                });
+                })
         });
     },
     logIn(context, payload){
+        context.commit("authenticating");
         return new Promise((resolve, reject) => {
             Account
                 .logIn(payload.username, payload.password)
@@ -40,7 +48,7 @@ export const actions = {
                 })
                 .catch(err => {
                     reject(err);
-                });
+                })
         });
     },
     logOut(context){
@@ -54,7 +62,10 @@ export const actions = {
         });
     },
     eatRecipe(context, payload){
-        context.commit("eatRecipe", payload);
+        Account.eatRecipe(payload.id, context.state.account.id)
+        .then(res => {
+            context.commit("eatRecipe", payload);
+        });
     }
 }
 
@@ -62,7 +73,7 @@ export const getters = {
     account(state){
         return state.account;
     },
-    test(state){
-        return "test"
+    authenticating(state){
+        return state.authenticating;
     }
 }

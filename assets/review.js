@@ -2,22 +2,20 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/review";
 
-export function getAllByAccountId(id){
-    return axios.get(API_URL, {
-        withCredentials: true,
-        params: {
-            id
-        } 
-    })
-}
+export function getAllByRecipeId(id, pageNumber, options){
+    const params ={
+        id,
+        pageNumber
+    };
 
-export function getAllByAccountIdWithPage(id, pageNumber){
+    if(options.sortType){
+        params.sortText = options.sortType.text;
+        params.isAscending = options.sortType.isAscending;
+    }
+
     return axios.get(API_URL, {
         withCredentials: true,
-        params: {
-            id,
-            pageNumber
-        } 
+        params: params
     })
 }
 
