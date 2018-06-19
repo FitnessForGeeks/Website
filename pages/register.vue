@@ -9,6 +9,7 @@
                         v-model="username"
                         :rules="[rules.required('Username')]"
                         prepend-icon="person"
+                        error-messages="errors.username"
                         required
                     ></v-text-field>
                     <v-text-field
@@ -17,6 +18,7 @@
                         type="email"
                         :rules="[rules.required('Email'), rules.email]"
                         prepend-icon="email"
+                        error-messages="errors.email"
                         required
                     ></v-text-field>
                     <v-text-field
@@ -58,9 +60,12 @@ export default {
     },
     data(){
         return {
-            alerts:[],
             username: "",
             password: "",
+            errors: {
+                username: [],
+                email: []
+            },
             email: "",
             valid: true,
             rules: {
@@ -89,6 +94,8 @@ export default {
         },
         submit(){
             if(this.valid){
+                this.errors.username = [];
+                this.errors.email = [];
                 register(
                     this.username,
                     this.password,

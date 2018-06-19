@@ -9,6 +9,7 @@
                         v-model="username"
                         :rules="[rules.required('Username')]"
                         id="username"
+                        :error-messages="errors.username"
                         prepend-icon="person"
                         required
                     ></v-text-field>
@@ -18,6 +19,7 @@
                         type="password"
                         id="password"
                         :rules="[rules.required('Password')]"
+                        :error-messages="errors.password"
                         prepend-icon="lock"
                         required
                     ></v-text-field>
@@ -58,6 +60,10 @@ export default {
             password: "",
             valid: true,
             loggingIn: false,
+            errors: {
+                username: [],
+                password: []
+            },
             rules: {
                 required: name => val => {
                     if(val === "")
@@ -74,15 +80,26 @@ export default {
         onSubmitButtonClicked(){
             if(this.valid){
                 this.loggingIn = true;
+                this.errors.username = [];
+                this.errors.password = [];
                 this.$store
                     .dispatch("account/logIn", {
                         username: this.username,
                         password: this.password,
                     })
-                    .then(() => this.$router.push("/"))
+                    .then(res => {
+                        sessionStorage.setItem("account", JSON.stringify(res.data));
+                        this.$router.push("/")
+                    })
                     .catch(err => {
                         this.loggingIn = false;
-                        console.log(err.message);
+                        console.log(err);
+                        if(err.response.status === 404){
+                            this.errors.username.push("Username doesn't exist");
+                        }
+                        else if(err.response.status === 403){
+                            this.errors.password.push("Wrong password");
+                        }
                     });
             }
         }

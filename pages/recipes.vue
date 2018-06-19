@@ -39,28 +39,19 @@ export default {
             return this.recipes[this.recipeIndex];
         }
     },
-    created() {
-        if (this.account === null) {
+    created(){
+        if(this.account)
+            this.loadRecipes();
+        else
             this.$router.push("/login");
-        }
-    },
-    mounted() {
-        if(this.account){
-            getAll()
-            .then(res => {
-                this.loadingRecipes = false;
-                this.recipes = res.data;
-                this.$nextTick(() => {
-                    this.$refs.recipe.loadReviews(this.recipes[this.recipeIndex].id);
-                });
-            })
-            .catch(err => console.log(err));
-        }
     },
     watch:{
         account: function(val){
             if(val === null){
-                this.$router.push("/");
+                this.$router.push("/login");
+            }
+            else{
+                this.loadRecipes();
             }
         }
     },
@@ -73,6 +64,17 @@ export default {
         };
     },
     methods: {
+        loadRecipes(){
+            getAll()
+            .then(res => {
+                this.loadingRecipes = false;
+                this.recipes = res.data;
+                this.$nextTick(() => {
+                    this.$refs.recipe.loadReviews(this.recipes[this.recipeIndex].id);
+                });
+            })
+            .catch(err => console.log(err));
+        },
         newRecipeIndex(i) {
             this.recipeIndex = i;
             window.scrollTo(0, 0);

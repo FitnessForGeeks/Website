@@ -7,7 +7,7 @@
                 <spinner fadeIn="quarter" class="spinner" name="cube-grid" color="#adacef"/>
             </div>
         </div>
-        <transition name="fade">
+        <transition appear>
             <div v-show="!authenticating">
                 <v-app class="app">
                     <navbar></navbar>
@@ -33,16 +33,28 @@ export default {
             account: "account/account"
         })
     },
-    created(){
-        this.$store.dispatch("account/authenticate")
-        .catch(err => {
-            if(err.request.status === 0){
-                console.log(err.message)
-            }
-        })
-        .finally(() => {
-            setTimeout(() => this.authenticating = false, 1370);
-        });
+    mounted(){
+        const acc = JSON.parse(sessionStorage.getItem("account"));
+        console.log(acc);
+        if(acc){
+            this.$store.commit("account/logIn", acc);
+            this.authenticating = false;
+        }
+        else{
+            this.$store.dispatch("account/authenticate")
+            .catch(err => {
+                if(err.request.status === 0){
+                    console.log(err.message)
+                }
+            })
+            .then(res => {
+                if(res)
+                    sessionStorage.setItem("account", JSON.stringify(res.data));
+            })
+            .finally(() => {
+                setTimeout(() => this.authenticating = false, 1000);
+            });
+        }
     },
     components:{
         navbar,

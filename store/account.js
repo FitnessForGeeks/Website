@@ -23,7 +23,7 @@ export const actions = {
                 .authenticate()
                 .then(response => {
                     context.commit("logIn", response.data);
-                    resolve(response.data);
+                    resolve(response);
                 })
                 .catch(err => {
                     reject(err)
@@ -35,8 +35,8 @@ export const actions = {
             Account
                 .logIn(payload.username, payload.password)
                 .then(response => {
-                    context.dispatch("authenticate");
-                    resolve();
+                    context.commit("logIn", response.data);
+                    resolve(response);
                 })
                 .catch(err => {
                     reject(err);

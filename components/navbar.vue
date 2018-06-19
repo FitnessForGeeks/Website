@@ -65,6 +65,7 @@ export default {
             }
         },
         logOut(){
+            sessionStorage.removeItem("account");
             this.$store.dispatch("account/logOut");
         }
     },
