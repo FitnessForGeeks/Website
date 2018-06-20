@@ -1,24 +1,28 @@
 <template>
-    <v-navigation-drawer permanent :fixed="true" class="sidebar">
-        <div class="search-form">
+    <v-navigation-drawer permanent :fixed="true" :class="'sidebar' + classDependingOnMini" :mini-variant="mini" >
+        <div :class="'search-form' + classDependingOnMini">
             <v-text-field
                 solo
                 flat
                 autofocus
                 @keydown.native.enter="() => onSearch()"
                 v-model="query"
-                class="search-field"
+                :class="'search-field' + classDependingOnMini"
                 placeholder = "Search"
             >
             </v-text-field>
             <v-btn
-                class="search-button"
+                :class="'search-button' + classDependingOnMini"
                 depressed
                 color="primary"
                 @click="onSearch"
             ><v-icon>search</v-icon></v-btn>
+            <v-icon large :class="'toggle-button' + classDependingOnMini" @click="onToggleMini">{{toggleButtonArrow}}</v-icon>
         </div>
-        <v-divider></v-divider>
+        <dropdown-menu
+            :items="dropdownMenuItems"
+            @click="onDropdownItemClicked"
+        ></dropdown-menu>
         <v-list v-if="!loading" dense class="result-list">
             <v-list-tile v-for="(item, i) in items" :key="i" :color="selectedIndex === i? 'primary' : ''" @click="() => changeIndex(i)">
                 <v-list-tile-avatar>
@@ -35,45 +39,133 @@
             </v-list-tile>
         </v-list>
         <v-progress-circular v-else indeterminate class="loading-circle"></v-progress-circular>
+        <div class="paginator-container">
+            <v-pagination
+                class="paginator"
+                :length="6"
+                v-model="currentPage"
+                @input="onSearch"
+            ></v-pagination>
+        </div>
     </v-navigation-drawer>
 </template>
 
 <script>
+import DropdownMenu from "./dropdownMenu.vue";
+import { getAll as getAllRecipes } from "@/assets/recipe.js"
+
 export default {
     props: ["loading", "items"],
+    components:{
+        DropdownMenu
+    },
     data(){
         return {
             query: "",
-            selectedIndex: 0
+            mini: false,
+            dropdownMenuItems: ["rating"],
+            selectedIndex: 0,
+            currentPage: 1
+        }
+    },
+    computed: {
+        toggleButtonArrow(){
+            return this.mini? "arrow_right" : "arrow_left";
+        },
+        classDependingOnMini(){
+            return this.mini? " mini " : "";
         }
     },
     methods:{
+        onDropdownItemClicked(payload){
+            const { itemIndex, isAscending } = payload;
+            getAllRecipes({
+                pageNumber: this.currentPage,
+                sortText: this.dropdownMenuItems[itemIndex],
+                query: this.query,
+                isAscending
+            })
+            .then(res => {
+                console.log(res);
+            })
+        },
         onSearch(){
-            this.$emit("search", this.query);
+            this.$emit("search", {
+                query: this.query,
+                pageNumber: this.currentPage
+            });
         },
         changeIndex(i){
             this.$emit("new-index", i);
             this.selectedIndex = i;
+        },
+        onToggleMini(){
+            this.mini = !this.mini;
+            this.$emit("mini-toggle", this.mini);
         }
     }
 }
 </script>
 
 <style scoped>
+.dropdown{
+    margin-left: auto;
+}
 .result-list{
-    height: calc(100% - 80px);
+    height: 100%;
 }
 .search-form{
     display: flex;
-    margin: 0 auto;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 3px;
+    padding-bottom: 3px;
 }
 .sidebar{
+    display: flex;
+    flex-direction: column;
+    flex-grow: inherit;
     min-width: 400px;
     margin-top: 68px !important;
+    padding-bottom: 80px !important;
 }
+
+.sidebar.mini{
+    min-width: 0;
+}
+
+.search-button.mini,
+.search-field.mini{
+    display: none;
+}
+
+.search-form.mini{
+    padding-bottom: 10px;
+}
+
 .loading-circle{
     display: block;
     padding-top: 100px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.toggle-button{
+    margin-top: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.toggle-button.mini{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.paginator-container{
+    display: flex;
+}
+
+.paginator{
     margin: 0 auto;
 }
 

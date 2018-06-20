@@ -1,5 +1,5 @@
 <template>
-    <div class="recipe-page">
+    <div :class="'recipe-page' + classDependingOnMini ">
         <div class="recipe-wrapper">
             <div>
                 <search-sidebar 
@@ -7,6 +7,7 @@
                     :items="recipes"
                     @search="onSearchRequest" 
                     @new-index="newRecipeIndex"
+                    @mini-toggle="onMiniToggle"
                 >
                 </search-sidebar>
             </div>
@@ -15,6 +16,7 @@
                 ref="recipe"
                 :recipe="selectedRecipe"
             ></recipe>
+           
         </div>
     </div>
 </template>
@@ -37,6 +39,9 @@ export default {
         }),
         selectedRecipe() {
             return this.recipes[this.recipeIndex];
+        },
+        classDependingOnMini(){
+            return this.isMini? " mini " : "";
         }
     },
     mounted(){
@@ -52,6 +57,7 @@ export default {
             recipes: [],
             reviews: [],
             recipeIndex: 0,
+            isMini: false,
             loadingRecipes: true
         };
     },
@@ -82,6 +88,9 @@ export default {
                 this.recipes = res.data;
             });
         },
+        onMiniToggle(isMini){
+            this.isMini = isMini;
+        }
     }
 };
 </script>
@@ -89,12 +98,16 @@ export default {
 <style scoped>
 
 .infoWrapper {
-  padding: 10px;
-  width: 100%;
-  height: 100%;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
 }
 .recipe-page {
-  height: 100%;
-  margin-left: 400px;
+    height: 100%;
+    margin-left: 400px;
+}
+
+.recipe-page.mini {
+    margin-left: 80px;
 }
 </style>

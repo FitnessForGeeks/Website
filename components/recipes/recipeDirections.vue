@@ -37,7 +37,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding-top: 100px;
-    padding-left: 200px;
+    padding-left: 13.3%;
     padding-right: 200px;
 }
 

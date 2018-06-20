@@ -1,20 +1,10 @@
 <template>
     <div class="root">
-        <v-menu offset-y>
-            <v-btn 
-                flat 
-                small
-                slot="activator"
-                class="sort-btn"
-            > 
-                <v-icon class="sort-btn-icon">sort</v-icon>sort by
-            </v-btn>
-            <v-list dense>
-                <v-list-tile v-for="(item, i) in sortMenuItems" :key="i" @click="item.onClick(i)">
-                    {{item.text}} <v-icon small class="sort-menu-item-icon">{{item.icon}}</v-icon>
-                </v-list-tile>
-            </v-list>
-        </v-menu>
+        <dropdown-menu
+            :items="sortMenuItems"
+            @click="onDropdownItemClicked"
+        >
+        </dropdown-menu>
         <ul class="recipe-reviews">
             <li v-for="(review, i) in reviews" :key="i">
                 <recipe-review
@@ -37,49 +27,21 @@
 
 <script>
 import RecipeReview from "./recipeReview.vue";
+import DropdownMenu from "@/components/dropdownMenu.vue";
 
 export default {
     components: {
-        RecipeReview
+        RecipeReview,
+        DropdownMenu
     },
     data(){
         return {
             currentPage: 1,
-            selectedSortIndex: 0,
-            sortMenuItems: [
-                {
-                    text: "NEWEST",
-                    icon: "arrow_upward",
-                    onClick: i => {
-                        this.selectedSortIndex = i;
-                        this.onNextPage();
-                    }
-                },
-                {
-                    text: "NEWEST",
-                    icon: "arrow_downward",
-                    onClick: i => {
-                        this.selectedSortIndex = i;
-                        this.onNextPage();
-                    }
-                },
-                {
-                    text: "RATING",
-                    icon: "arrow_upward",
-                    onClick: i => {
-                        this.selectedSortIndex = i;
-                        this.onNextPage();
-                    }
-                },
-                {
-                    text: "RATING",
-                    icon: "arrow_downward",
-                    onClick: i => {
-                        this.selectedSortIndex = i;
-                        this.onNextPage();
-                    }
-                },
-            ],
+            selectedSort: {
+                index: 0,
+                isAscending: true
+            },
+            sortMenuItems: ["newest", "rating"],
             isNewRecipe: false
         }
     },
@@ -102,12 +64,17 @@ export default {
         }
     },
     methods:{
+        onDropdownItemClicked({ itemIndex, isAscending }){
+            this.selectedSort = {
+                index: itemIndex,
+                isAscending
+            };
+            this.onNextPage();
+        },
         onNextPage(){
-            const { text, icon } = this.sortMenuItems[this.selectedSortIndex];
-            const isAscending = icon === "arrow_upward";
             this.$emit("load-page", this.currentPage, {
-                text,
-                isAscending 
+                text: this.sortMenuItems[this.selectedSort.index],
+                isAscending : this.selectedSort.isAscending
             });
         },
         onNewRecipe(){

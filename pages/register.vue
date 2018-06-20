@@ -51,6 +51,7 @@
 <script>
 import { register } from "@/assets/account.js";
 import { mapGetters } from "vuex";
+import EmailValidator from "email-validator";
 
 export default {
     beforeUpdate(){
@@ -80,8 +81,7 @@ export default {
                     return true;
                 },
                 email: val => {
-                    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    if(!pattern.test(val))
+                    if(!EmailValidator.validate(val))
                         return "Must be a valid email"
                     return true;
                 }

@@ -13,7 +13,7 @@
                         {{account.username}} <v-icon class="dropdown-arrow-username">arrow_drop_down</v-icon>
                     </span>
                     <v-avatar>
-                        <img class="user-avatar" :src="account.profilePicture">
+                        <img class="user-avatar" ref="img" :src="account.profilePicture">
                     </v-avatar>
                 </div>
                 <v-list >
@@ -90,7 +90,7 @@ export default {
                 {
                     text: "My Recipes",
                     icon: "list",
-                    onClick: () => this.$router.push("recipes")
+                    onClick: () => this.$router.push("myRecipes")
                 },
                 {
                     text: "Edit profile",

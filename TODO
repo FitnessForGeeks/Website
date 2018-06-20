@@ -3,9 +3,14 @@ Todo:
   ✔ Add description to recipe layout @started(18-06-16 16:02) @done(18-06-16 16:22) @lasted(20m51s)
   ✔ Add custom error display @done(18-06-16 19:03)
   ✔ Tell the user when the login failed due to wrong password and/or username. @done(18-06-19 21:17)
+  ☐ finish sidebar sorting and pagination
+  ☐ finish my recipes page (sorting and searching)
   ☐ Somehow notify the user when a request fails due to network error
+  ☐ Create a overview of the day
   ☐ Create recipe overview
     ☐ Add a way to create a recipe
+  ✔ Add the ability to minimize the sidebar @done(18-06-20 19:48)
+  ✔ Create a way to edit your own profile @done(18-06-20 18:32)
   ☐ Create a fucking home page it is still empty lol
   ✔ Add backend for eat it button @done(18-06-19 21:17)
   ✔ refactor recipes component @done(18-06-18 17:26)
@@ -24,3 +29,5 @@ Bugs:
   ✔ Refreshing the recipes page will result in $refs.recipe to be undefined in the loadRecipes function of the recipes component @done(18-06-19 17:36)
     ✔ Maybe allow the user to see the recipes without login in @done(18-06-19 17:37)
   ✔ Clicking on a different recipe after the page was loaded results in the auto scroll down functionality when skipping through review pages to stop working @done(18-06-19 17:40)
+  ✔ Trying to login while being on /editProfile will result in the page not being filled with data @done(18-06-20 18:35)
+  ☐ Changing the profile picture will not update the navbar's profile picture

@@ -35,7 +35,7 @@ export default {
 
 .list {
   list-style-type: none;
-  padding-left: 200px;
+  padding-left: 13.3%;
 }
 
 .title{

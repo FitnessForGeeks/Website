@@ -1,4 +1,5 @@
 import * as Account from "@/assets/account";
+import Vue from "vue";
 
 export const state = () => ({
     account: null,
@@ -15,6 +16,12 @@ export const mutations = {
     },
     eatRecipe(state, payload){
         state.account.remainingCalories = (state.account.remainingCalories || state.account.tdee) - payload.calories;
+    },
+    update(state, changes){
+        Object.assign(state.account, changes);
+    },
+    refreshProfilePicture(state){
+        state.account.profilePicture = state.account.profilePicture;
     },
     authenticating(state, payload){
         if(!state.authenticating)
@@ -35,6 +42,30 @@ export const actions = {
                 .catch(err => {
                     reject(err)
                 })
+        });
+    },
+    uploadProfilePicture(context, payload){
+        return new Promise((resolve, reject) => {
+            Account.uploadProfilePicture(payload)
+            .then(res => {
+                context.commit("refreshProfilePicture");
+                resolve(res);
+            })
+            .catch(reject);
+        });
+    },
+    update(context, payload){
+        return new Promise((resolve, reject) => {
+            const account =  Object.assign({}, payload);
+            const updateEmail = account.email != context.state.account.email;
+            if(!updateEmail)
+                delete account.email;
+            Account.update(account)
+            .then(res => {
+                context.commit("update", payload);
+                resolve(res);
+            })
+            .catch(reject);
         });
     },
     logIn(context, payload){
