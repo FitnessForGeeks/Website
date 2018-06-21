@@ -30,6 +30,7 @@
         </div> 
         <span class="grey--text"></span>
       </div> 
+      Username
     </v-card-title>
     <input type="file" id="fileInput" ref="fileChooser" accept="image/*" style="display:none" multiple>
     <p id="username">Username</p>
@@ -59,6 +60,20 @@ import navbar from "@/components/navbar.vue";
 export default {
   data: () => ({
     showMenu: false,
+    accountData:[
+      {
+        name: "Height",
+        content: "187 cm"
+      },
+      {
+        name: "Weight",
+        content: "187 kg"
+      },
+      {
+        name: "age",
+        content: "187"
+      }
+    ],
     items: [
       { title: "Change Picture", id: "changePictureId" },
       { title: "Info", id: "infoId" } 
@@ -99,25 +114,13 @@ export default {
 
     /*above stuff to try out*/
     onMenuClick(event) {
-      /*var fullPath = document.getElementById('fileInput').value;
-      console.log("fullPath: " + fullPath); //undefined
-      console.log("event.target.id: " + event.target.id);
-      if (event.target.id == "changePictureId") {
+      if (event.target.id == "changePictureId"){
         this.$refs.fileChooser.click();
-        var newSourceId = "doc-images/cards/newProfilePagePicture.jpg"; //get url from file chooser
-        document.getElementById("fileInput").src=newSourceId;
-        if (fullPath) { //get filename from filechooser
-          var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-          var filename = fullPath.substring(startIndex);
-          if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-            filename = filename.substring(1);
-          }
-          console.log("filename: " + filename); 
-        }
-      }
-      else{
-        console.log("event.target.id: " + event.target.id + " is not changePictureId");
-      }*/
+        var fileInput = document.getElementById('fileInput');
+        var fileDisplayArea = document.getElementById('fileDisplayArea');
+        fileInput.addEventListener('change', function(e) {
+          var file = fileInput.files[0];
+          var imageType = /image.*/;
 
     /* tryout stuff */
   
