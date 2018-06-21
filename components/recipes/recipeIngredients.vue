@@ -1,6 +1,6 @@
 <template>
     <div class="root">
-        <h1 class="title">Ingredients</h1>
+        <h1 class="x-title">Ingredients</h1>
         <div class="content">
             <ul class="list">
                 <li v-for="(ingredient, i) in ingredients" :key="i">
@@ -38,7 +38,7 @@ export default {
   padding-left: 13.3%;
 }
 
-.title{
+.x-title{
   text-align: center;
   margin-bottom: 20px;
 }

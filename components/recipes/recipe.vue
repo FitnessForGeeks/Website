@@ -18,6 +18,8 @@
                     <span class="owner">by {{recipe.owner}}</span> 
                     | 
                     <button class="button-navigator" @click="() => this.scrollToSelector('#reviews')">reviews {{recipe.reviewCount}}</button>
+                    |
+                    <span>{{recipe.calories}} calories</span>
                     </p>
                     <p class="description">"{{recipe.description}}"</p>
                 </div>
@@ -104,7 +106,8 @@ export default {
             );
         },
         onEatClicked() {
-            this.$store.dispatch("account/eatRecipe", this.recipe);
+            this.$store.dispatch("account/eatRecipe", this.recipe)
+            .then(res => this.$emit("eat"));
         },
         scrollToSelector(selector) {
             this.$el.querySelector(selector).scrollIntoView({

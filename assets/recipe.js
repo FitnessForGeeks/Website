@@ -20,3 +20,13 @@ export function getByQuery(query){
         withCredentials: true
     })
 }
+
+export function create(recipe){
+    return axios.post(API_URL, recipe);
+}
+
+export function uploadRecipePicture(file, title){
+    const formData = new FormData();
+    formData.append("file", file);
+    return axios.post(config.apiServerUrl + "/static/recipes/" + title, formData);
+}

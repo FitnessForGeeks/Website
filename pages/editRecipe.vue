@@ -1,9 +1,9 @@
 <template>
     <div class="root">
         <recipe-form
-            submit-value="Create"
-            :errors="errors"
-            @submit="createRecipe"
+            :recipe="recipe"
+            submit-value="Update"
+            @submit="updateRecipe"
         ></recipe-form>
     </div>
 </template>
@@ -20,11 +20,16 @@ export default {
             authenticating: "account/authenticating",
         })
     },
+    created(){
+        if(!this.$route.params.recipe)
+            this.$router.push("/myRecipes");
+        else
+            this.recipes = JSON.parse(this.$route.params.recipe);
+        console.log(this.recipes);
+    },
     data(){
         return {
-            errors: {
-                title: []
-            }
+            recipe: {}
         };
     },
     components:{
@@ -44,23 +49,9 @@ export default {
         }
     },
     methods: {
-        createRecipe(recipe){
+        updateRecipe(recipe){
             recipe.accountId = this.account.id;
-            create(recipe)
-            .then(res => {
-                uploadRecipePicture(recipe.imageFile, recipe.title);
-                debugger;
-                this.$router.push("/myRecipes")
-            })
-            .catch(error => {
-                if(error.response){
-                    if(error.response.status === 409){
-                        this.errors.title.push("This title is already being used");
-                    }
-                }
-                else
-                    console.log("network error")
-            });
+            console.log(recipe);
         }
     }
 }

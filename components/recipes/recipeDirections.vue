@@ -43,6 +43,7 @@ export default {
 
 .directions-title{
     text-align: center;
+    margin-right: 30px;
     margin-bottom: 30px;
 }
 

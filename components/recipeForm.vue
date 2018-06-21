@@ -1,23 +1,27 @@
 <template>
-    <v-form class="form">
+    <v-form v-model="valid" class="form">
         <v-text-field 
+            autofocus
             class="title"
             label="Title"
-            :value="title"
+            v-model="title"
+            :rules="[val => (val != '' || 'Title is required')]"
+            :error-messages="errorMessagesTitle"
+            required
         ></v-text-field>
-        <img :src="image" alt="Image" height="200" width="680">
+        <img :src="image" alt="Image" width="560" height="315" class="image">
         <input type="file" class="image-button" @change="onImageSelected">
         <v-text-field 
             class="description"
             label="Description"
             textarea
-            :value="description"
+            v-model="description"
         ></v-text-field>
         <v-text-field 
             class="calories"
             label="Calories"
             type="number"
-            :value="calories"
+            v-model="calories"
         ></v-text-field>
         <div class="list-title">
             <h2>Ingredients</h2>
@@ -32,11 +36,18 @@
                 <h3>add</h3>
             </v-btn>
         </div>
-        <v-list>
+        <v-list class="ingredient-list">
             <v-list-tile v-for="(ingredient, i) in ingredients" :key="i">
                 <v-text-field
                     v-model="ingredients[i]"
                 ></v-text-field>
+                <v-icon
+                    color="red"
+                    style="cursor: pointer"
+                    @click="deleteIngredient(i)"
+                >
+                    clear
+                </v-icon>
             </v-list-tile>
         </v-list>
         <div class="list-title">
@@ -52,33 +63,70 @@
                 <h3>add</h3>
             </v-btn>
         </div>
-        <v-list>
+        <v-list class="direction-list">
             <v-list-tile v-for="(direction, i) in directions" :key="i">
                 <v-text-field
                     v-model="directions[i]"
                 ></v-text-field>
+                <v-icon
+                    color="red"
+                    style="cursor: pointer"
+                    @click="deleteDirection(i)"
+                >
+                    clear
+                </v-icon>
             </v-list-tile>
         </v-list>
+        <div class="actions">
+            <div class="privacy-select-container">
+                <v-select
+                    :items="privacyOptions"
+                    v-model="privacy"
+                    label="Privacy"
+                    class="privacy-select"
+                ></v-select>
+            </div>
+            <v-btn
+                class="create-button"
+                color="primary"
+                @click="onCreateRecipe"
+            >{{submitValue}}</v-btn>
+        </div>
     </v-form>
 </template>
 
 <script>
 export default {
+    props: ["submit-value", "errors", "recipe"],
     data(){
-        return {
+        const defaultData = {
             title: "",
-            image: "",
+            image: "http://localhost:5000/api/static/recipes/defaultRecipe",
+            valid: false,
+            imageFile: null,
+            privacy: "",
             description: "",
+            privacyOptions: [
+                "public",
+                "private"
+            ],
             ingredients:[],
             directions:[],
             calories: 0
         };
+        return Object.assign(defaultData, this.recipe);
+    },
+    computed:{
+        errorMessagesTitle(){
+            return this.errors? errors.title : [];
+        }
     },
     methods:{
         onImageSelected(event){
             const file = event.target.files[0];
             const fr = new FileReader();
-            fr.onload = event => this.image.src = fr.result;
+            this.imageFile = file;
+            fr.onload = event => this.image = fr.result;
             fr.readAsDataURL(file);
         },
         addIngredient(){
@@ -86,6 +134,31 @@ export default {
         },
         addDirection(){
             this.directions.push("");
+        },
+        deleteIngredient(i){
+            const temp = this.ingredients;
+            temp.splice(i, 1);
+            this.ingredients = temp;
+        },
+        deleteDirection(i){
+            const temp = this.directions;
+            temp.splice(i, 1);
+            this.directions = temp;
+        },
+        onCreateRecipe(){
+            if(this.errors)
+                Object.keys(this.errors).forEach(key => this.errors[key] = []);
+            if(this.valid){
+                this.$emit("submit", {
+                    title: this.title,
+                    imageFile: this.imageFile,
+                    public: this.privacy === "public",
+                    description: this.description,
+                    ingredients: this.ingredients,
+                    directions: this.directions,
+                    calories: this.calories
+                });
+            }
         }
     }
 }
@@ -96,6 +169,13 @@ export default {
     display: flex;
     align-items: center;
 }
+.ingredient-list,
+.direction-list{
+    margin-bottom: 20px;
+}
+.image{
+    margin: 0 auto;
+}
 .add-button{
     margin-left: auto;
 }
@@ -105,5 +185,18 @@ export default {
 .form{
     display: flex;
     flex-direction: column;
+}
+.actions{
+    display: flex;
+}
+.privacy-select{
+    margin-right: auto;
+}
+.create-button{
+    margin-left: auto;
+    align-self: center;
+}
+.privacy-select-container{
+    width: 100px;
 }
 </style>

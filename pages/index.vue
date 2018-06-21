@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <template>
     <div id="app">
         <link rel="shortcut icon" type="image/x-icon" href="doc-images/cards/logo.png" />
@@ -172,17 +171,3 @@ export default {
 <style>
 
 </style>
-=======
-<template>
-</template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
->>>>>>> 711757c27de7f20b43763a90eaae4d0bb763f61e

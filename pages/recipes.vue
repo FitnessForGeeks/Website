@@ -11,12 +11,23 @@
                 >
                 </search-sidebar>
             </div>
-            <recipe
-                v-if="!loadingRecipes"
-                ref="recipe"
-                :recipe="selectedRecipe"
-            ></recipe>
-           
+            <dir v-if="!loadingRecipes && recipes.length != 0">
+                <recipe
+                    v-if="!loadingRecipes"
+                    ref="recipe"
+                    :recipe="selectedRecipe"
+                    @eat="snackbar = true"
+                ></recipe>
+                <v-snackbar
+                    bottom
+                    left
+                    v-model="snackbar"
+                    v-if="!loadingRecipes"
+                >
+                    You have eaten {{selectedRecipe.calories}} Calories
+                    <v-btn flat color="primary" @click.native="snackbar = false">Close</v-btn>
+                </v-snackbar>
+            </dir>
         </div>
     </div>
 </template>
@@ -53,6 +64,7 @@ export default {
             reviews: [],
             recipeIndex: 0,
             isMini: false,
+            snackbar: false,
             loadingRecipes: true
         };
     },
@@ -67,7 +79,7 @@ export default {
                 this.loadingRecipes = false;
                 this.recipes = res.data;
                 this.$nextTick(() => {
-                    if(this.$refs.recipe && this.account)
+                    if(this.$refs.recipe && this.account && this.recipes.length != 0)
                         this.$refs.recipe.loadReviews(this.selectedRecipe.id);
                 });
             })

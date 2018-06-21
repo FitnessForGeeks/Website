@@ -37,10 +37,10 @@
                             <img :src="recipe.image" >
                         </v-list-tile-avatar>
                         <v-list-tile-action>
-                            <v-btn small fab icon color="primary"><v-icon style="margin-top: 20px">edit</v-icon></v-btn>
+                            <v-btn small fab icon color="primary" @click="onEditRecipe(i)"><v-icon style="margin-top: 20px">edit</v-icon></v-btn>
                         </v-list-tile-action>
                         <v-list-tile-action>
-                            <v-btn small fab icon color="red"><v-icon style="margin-top: 20px;color: white">remove_circle</v-icon></v-btn>
+                            <v-btn small fab icon color="red" @click="onDeleteRecipe(i)"><v-icon style="margin-top: 20px;color: white">remove_circle</v-icon></v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
                 </v-list>
@@ -80,7 +80,7 @@ export default {
                 this.redirectToLogin();
             else {
                 if(!this.account)
-                    this.redirecttologin();
+                    this.redirectToLogin();
                 else {
                     this.loadRecipes();
                 }
@@ -103,6 +103,17 @@ export default {
         },
         onAddRecipe(){
             this.$router.push("/createRecipe");
+        },
+        onEditRecipe(i){
+            this.$router.push({
+                name: "editRecipe",
+                params: {
+                    recipe: JSON.stringify(this.recipes[i])
+                }
+            })
+        },
+        onDeleteRecipe(){
+
         },
         redirectToLogin(){
             this.$router.push({

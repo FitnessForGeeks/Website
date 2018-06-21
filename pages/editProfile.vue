@@ -17,7 +17,6 @@
             <v-text-field type="number" v-model="accountData.height" label="Height" @input="() => valueChanged = true" :rules="[heightIsInt]"></v-text-field>
             <v-text-field textarea v-model="accountData.description" label="Description" @input="() => valueChanged = true"></v-text-field>
             <loading-button 
-                :disabled="!valueChanged || !valid" 
                 class="update-button" 
                 @click="onUpdateRequest" 
                 :loading="updating"
@@ -113,6 +112,7 @@ export default {
                 "height",
                 "description"
             ]);
+            _accountData.isMale = true;
             this.profilePicture = this.account.profilePicture;
             _accountData.birthdate = moment(_accountData.birthdate).format("YYYY-MM-DD");
             Object.keys(_accountData).forEach(key => {

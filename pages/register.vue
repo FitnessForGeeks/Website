@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container v-if="!account">
         <v-card dense class="signup-form">
             <v-card-text>
                 <v-form v-model="valid" @keydown.enter.native="submit">
@@ -54,7 +54,7 @@ import { mapGetters } from "vuex";
 import EmailValidator from "email-validator";
 
 export default {
-    mount(){
+    created(){
         if(this.account){
             this.$router.push("/");
         }
