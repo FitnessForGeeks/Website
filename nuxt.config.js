@@ -1,5 +1,4 @@
 module.exports = {
-    mode: "spa",
     head:{
         link: [
             {
@@ -13,6 +12,11 @@ module.exports = {
             {
                 rel: "stylesheet",
                 href: "https://fonts.googleapis.com/css?family=Roboto"
+            },
+            {
+                rel: "icon",
+                type: "image/png",
+                href: "favicon.png"
             }
         ]
     },
