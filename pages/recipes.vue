@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { getAll as getAllRecipes, getByQuery as getAllRecipesByQuery } from "@/assets/recipe";
+import { getAll as getAllRecipes } from "@/assets/recipe";
 import { mapGetters } from "vuex";
 import axios from "axios";
 import Recipe from "@/components/recipes/recipe.vue";
@@ -47,11 +47,6 @@ export default {
     mounted(){
         this.loadRecipes();
     },
-    watch:{
-        account: function(val){
-            this.loadRecipes();
-        }
-    },
     data() {
         return {
             recipes: [],
@@ -63,7 +58,11 @@ export default {
     },
     methods: {
         loadRecipes(){
-            getAllRecipes()
+            getAllRecipes({
+                pageNumber: 1,
+                isAscending: false,
+                sortText: "rating"
+            })
             .then(res => {
                 this.loadingRecipes = false;
                 this.recipes = res.data;
@@ -81,9 +80,11 @@ export default {
                     this.$refs.recipe.loadReviews(this.recipes[this.recipeIndex].id);
             });
         },
-        onSearchRequest(query) {
+        onSearchRequest(data) {
             this.loadingRecipes = true;
-            getAllRecipesByQuery(query).then(res => {
+            getAllRecipes(data)
+            .then(res => {
+                console.log(res);
                 this.loadingRecipes = false;
                 this.recipes = res.data;
             });

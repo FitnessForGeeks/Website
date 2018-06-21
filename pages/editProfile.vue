@@ -157,8 +157,16 @@ export default {
             }
             else fileWasUploaded = true;
             const putData = Object.assign({}, this.account, this.accountData);
+            if(putData.birthdate == "Invalid date")
+                putData.birthdate = null;
+            if(putData.email == this.account.email)
+                putData.email = null;
             this.$store.dispatch("account/update", putData)
+            .then(res => {
+                this.snackbar = true;
+            })
             .catch(err => {
+                console.log(err);
                 if(err.response){
                     if(err.response.status === 409){
                         this.errors.email.push("Email is already being used")
@@ -167,9 +175,6 @@ export default {
                 else{
                     console.log("network error");
                 }
-            })
-            .then(res => {
-                this.snackbar = true;
             })
             .finally(res => {
                 accountWasUpdated = true;

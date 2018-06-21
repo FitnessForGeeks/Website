@@ -17,6 +17,7 @@ export default {
     watch:{
         selectedRadio(val){
             this.isMale = val == 1;
+            this.$emit("input", this.isMale);
         }
     }
 }

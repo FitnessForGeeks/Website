@@ -9,7 +9,7 @@
                         v-model="username"
                         :rules="[rules.required('Username')]"
                         prepend-icon="person"
-                        error-messages="errors.username"
+                        :error-messages="errors.username"
                         required
                     ></v-text-field>
                     <v-text-field
@@ -18,7 +18,7 @@
                         type="email"
                         :rules="[rules.required('Email'), rules.email]"
                         prepend-icon="email"
-                        error-messages="errors.email"
+                        :error-messages="errors.email"
                         required
                     ></v-text-field>
                     <v-text-field
@@ -54,9 +54,22 @@ import { mapGetters } from "vuex";
 import EmailValidator from "email-validator";
 
 export default {
-    beforeUpdate(){
+    mount(){
         if(this.account){
             this.$router.push("/");
+        }
+    },
+    watch:{
+        account(val){
+            if(val)
+                this.$router.push("/");
+        },
+        authenticating(val){
+            if(!val && this.account)
+                this.$router.push("/");
+            else if(this.account)
+                this.$router.push("/");
+            
         }
     },
     data(){
@@ -68,7 +81,7 @@ export default {
                 email: []
             },
             email: "",
-            valid: true,
+            valid: false,
             rules: {
                 required: name => val => {
                     if(val === "")

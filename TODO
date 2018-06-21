@@ -6,12 +6,17 @@ Todo:
   ☐ Create a overview of the day
   ☐ Create recipe overview
     ☐ Add a way to create a recipe
+  ☐ Feedback when eating recipe (Maybe snackbar)
   ☐ Create a fucking home page it is still empty lol
   ☐ The user shouldn't be logged in after the page is rendered, because it will result in some unpleasant screen flashing. @started(18-06-17 13:43)
      ☐ Maybe use placeholders like youtube
 
 Bugs:
   ☐ Changing the profile picture will not update the navbar's profile picture
+  ☐ Password matching is only done on blur
+  ☐ Updating account email already used error
+  ☐ login error.response is undefined
+  ✔ Updating account has faulty request @done(18-06-21 11:41)
 Archive:
   ✔ Add the ability to minimize the sidebar @done(18-06-20 19:48) @project(Todo)
   ✔ Create a way to edit your own profile @done(18-06-20 18:32) @project(Todo)

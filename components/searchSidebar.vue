@@ -22,6 +22,7 @@
         <dropdown-menu
             :items="dropdownMenuItems"
             @click="onDropdownItemClicked"
+            v-if="!mini"
         ></dropdown-menu>
         <v-list v-if="!loading" dense class="result-list">
             <v-list-tile v-for="(item, i) in items" :key="i" :color="selectedIndex === i? 'primary' : ''" @click="() => changeIndex(i)">
@@ -39,7 +40,7 @@
             </v-list-tile>
         </v-list>
         <v-progress-circular v-else indeterminate class="loading-circle"></v-progress-circular>
-        <div class="paginator-container">
+        <div class="paginator-container" v-if="false">
             <v-pagination
                 class="paginator"
                 :length="6"
@@ -52,7 +53,6 @@
 
 <script>
 import DropdownMenu from "./dropdownMenu.vue";
-import { getAll as getAllRecipes } from "@/assets/recipe.js"
 
 export default {
     props: ["loading", "items"],
@@ -79,20 +79,19 @@ export default {
     methods:{
         onDropdownItemClicked(payload){
             const { itemIndex, isAscending } = payload;
-            getAllRecipes({
+            this.$emit("search", {
                 pageNumber: this.currentPage,
                 sortText: this.dropdownMenuItems[itemIndex],
                 query: this.query,
                 isAscending
-            })
-            .then(res => {
-                console.log(res);
-            })
+            });
         },
         onSearch(){
             this.$emit("search", {
+                pageNumber: this.currentPage,
+                sortText: this.dropdownMenuItems[itemIndex],
                 query: this.query,
-                pageNumber: this.currentPage
+                isAscending
             });
         },
         changeIndex(i){

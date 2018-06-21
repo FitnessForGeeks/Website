@@ -10,13 +10,17 @@
                     color="primary"
                     class="add-button"
                     depressed
+                    @click="onAddRecipe"
                 >
-                    <v-icon style="margin-right: 5px">add_circle</v-icon>
+                    <v-icon style="margin-right: 5px" >add_circle</v-icon>
                     add
                 </v-btn>
             </v-card-title>
             <v-card-media>
-                <v-list class="recipe-list">
+                <div class="loading-circle-container" v-if="loading">
+                    <v-progress-circular indeterminate class="loading-circle"></v-progress-circular>
+                </div>
+                <v-list v-else class="recipe-list">
                     <v-list-tile v-for="(recipe, i) in recipes" :key="i" class="recipe" >
                         <v-list-tile-content class="recipe-content">
                             <h2>{{recipe.title}}</h2>
@@ -25,17 +29,19 @@
                         <star-rating
                             read-only
                             class="rating"
-                            star-size="20"
+                            :star-size="20"
                             :show-rating="false"
                             v-model="recipe.avgRating"
                         ></star-rating>
                         <v-list-tile-avatar>
                             <img :src="recipe.image" >
                         </v-list-tile-avatar>
-                        <v-list-tile-actions>
+                        <v-list-tile-action>
                             <v-btn small fab icon color="primary"><v-icon style="margin-top: 20px">edit</v-icon></v-btn>
+                        </v-list-tile-action>
+                        <v-list-tile-action>
                             <v-btn small fab icon color="red"><v-icon style="margin-top: 20px;color: white">remove_circle</v-icon></v-btn>
-                        </v-list-tile-actions>
+                        </v-list-tile-action>
                     </v-list-tile>
                 </v-list>
             </v-card-media>
@@ -57,7 +63,8 @@ export default {
     },
     data(){
         return {
-            recipes: []
+            recipes: [],
+            loading: false
         };
     },
     components: {
@@ -86,11 +93,16 @@ export default {
     },
     methods:{
         loadRecipes(){
+            this.loading = true;
             getMyRecipes(this.account.id)
             .then(res => {
+                this.loading = false;
                 this.recipes = res.data;
                 console.log(this.recipes);
             });
+        },
+        onAddRecipe(){
+            this.$router.push("/createRecipe");
         },
         redirectToLogin(){
             this.$router.push({
@@ -105,6 +117,13 @@ export default {
 </script>
 
 <style scoped>
+.loading-circle-container{
+    width: 100%;
+    display: flex;
+}
+.loading-circle{
+    margin: 0 auto;
+}
 .add-button{
     margin-left: auto;
 }
