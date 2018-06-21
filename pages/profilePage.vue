@@ -9,35 +9,50 @@
         </v-list-tile>
       </v-list>
       </v-menu>
-      <!--<v-avatar size="100" class="avatarInPic"> 
-        <img src="doc-images/avatars/avatar_user_designer.png" alt="Avatar">
-      </v-avatar> --> 
     </div>
     <v-card-title>
       <div id="centering">
-        <div class="headline">Username 
-          <v-avatar size="100"> 
-            <img src="doc-images/avatars/avatar_user_grandfather.png" alt="Avatar">
-          </v-avatar>
+        <div class="headline"> 
+          <v-menu absolute>
+            <v-avatar slot="activator" size="200"> 
+              <img id="avatarId" src="doc-images/avatars/avatar_user_malestudent_blondehair.png" alt="Avatar">
+            </v-avatar>
+            <v-list> 
+              <v-list-tile v-for="item in itemAvatar" :key="item.title" @click="onAvatarClick">
+                <v-list-tile-title :id="item.id">{{ item.title }}</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+         
+          <div id="followersFollowingId">
+            Followers | Following | Recipes | Activities
+          </div>
         </div> 
         <span class="grey--text"></span>
       </div> 
     </v-card-title>
     <input type="file" id="fileInput" ref="fileChooser" accept="image/*" style="display:none" multiple>
-    <br>
-    <div id="accountSettings">
-      <p class="text-xs-center">Account Settings</p> 
-      <!--<v-list class="text-xs-center" id="accountSettingsListItem">Height: 188 cm<br> Weight: 78 kg<br> Age: 17<!-- div or align to left --> 
-      <div id="temp">
-      <p>Height: 187 cm</p>
-      <p>Weight: 76 kg</p>
-      <p>Age: 17</p>
+    <p id="username">Username</p>
+    <div id="wrapper">
+      <div id="descriptionId">
+        <p style="color:#1565c0; font-size:30px">Description</p>
+        <p>Firstname Surname</p><br>
+        <p>A regular dude working a 9/5 while trying to live a healthy lifestyle. Be welcome to join me on my journey.</p>
+        <p>Have a nice day :)</p>
+        <br><br>
+        <p id="makeSmallerDescriptionId">Joined at 20.6.2018</p>
       </div>
-      </v-list>
+      <div id="personalDataOnRight">
+        <p style="color:#1565c0; font-size:34px">Personal Data</p>
+        <p>Height: 187 cm</p>
+        <p>Weight: 76 kg</p>
+        <p>Age: 17</p>
+        <p>Gender: Male</p>
+        <p>Birthdate: 1.1.1974</p>
+      </div>
     </div>
   </v-container>
 </template>
-
 
 <script>
 import navbar from "@/components/navbar.vue";
@@ -46,7 +61,10 @@ export default {
     showMenu: false,
     items: [
       { title: "Change Picture", id: "changePictureId" },
-      { title: "Info" } // no functionality yet
+      { title: "Info", id: "infoId" } 
+    ],
+    itemAvatar: [
+      { title: "Change Avatar", id: "changeAvatarId" }
     ]
   }),
   methods: {
@@ -68,6 +86,16 @@ export default {
     document.getElementById('profilePagePictureId').innerHTML = '<ul>' + output.join('') + '</ul>';
   }
   */
+    onAvatarClick(event){
+      /*TODO: choose between the preselected avatars from doc-images/avatars*/
+      this.$refs.fileChooser.click();
+
+      
+      var fileInput = document.getElementById('fileInput').value;
+      alert(fileInput);
+      //var newPath = "doc-images/avatars/avatar_user_??.png";
+      //document.getElementById("avatarId").src = newPath;
+    },
 
     /*above stuff to try out*/
     onMenuClick(event) {
@@ -93,32 +121,35 @@ export default {
 
     /* tryout stuff */
   
-  if (event.target.id == "changePictureId"){
+  if (event.target.id == "changePictureId"){ //changepicture button clicked
     this.$refs.fileChooser.click();
     var fileInput = document.getElementById('fileInput');
-		var fileDisplayArea = document.getElementById('fileDisplayArea');
+    var fileDisplayArea = document.getElementById('fileDisplayArea');
 
 		fileInput.addEventListener('change', function(e) {
 			var file = fileInput.files[0];
-			var imageType = /image.*/;
-
+      var imageType = /image.*/;
+      
 			if (file.type.match(imageType)) {
 				var reader = new FileReader();
 
 				reader.onload = function(e) {
-					fileDisplayArea.innerHTML = "";
+					fileDisplayArea.innerHTML = "doc-images/cards/newProfilePagePicture";
 
 					var img = new Image();
 					img.src = reader.result;
 
 					fileDisplayArea.appendChild(img);
 				}
-
+        console.log(fileInput +"; " + fileDisplayArea); // not the wanted value
 				reader.readAsDataURL(file);	
 			} else {
 				fileDisplayArea.innerHTML = "File not supported!";
 			}
 		});
+  }
+  if (event.target.id == "infoId"){ // info button clicked
+      alert("The Height of the picture is 300px. The Width varies on what device you are on.");
   }
     }
   }
@@ -126,8 +157,52 @@ export default {
 </script>
 
 <style>
-#temp{
-  text-align: center;
+#makeSmallerDescriptionId{
+  font-size: 15px;
+  vertical-align: bottom;
+  display: table-cell;
+}
+#followersFollowingId{
+  color: white;
+  padding: 40px;
+  background-color: gray;
+  display: inline;
+  margin-left: 100px;
+}
+#wrapper{
+  width: 100%;
+  height: auto;
+  display: flex;
+}
+#personalDataOnRight{
+  border: 2px solid #1565c0;
+  border-radius: 5px;
+  padding: 25px;
+  font-size: 22px;
+  float: right;
+  font-size: 30px;
+  margin: 10px;
+  width: 70%;
+  display: block;
+  margin-left: 200px;
+}
+#username{
+  font-size: 30px;
+  margin-left: 80px;
+}
+.headline{
+  margin-top: -80px;
+  margin-left: 0px;
+}
+#descriptionId{
+  border: 2px solid #1565c0;
+  border-radius: 5px;
+  padding: 25px;
+  font-size: 22px;
+  margin-left: 30px;
+  float: left;
+  margin: 10px;
+  width: 40%;
   display: block;
   color:black;
 }
@@ -137,19 +212,9 @@ export default {
 .avatarInPic {
   margin-top: -20px;
 }
-#accountSettingsListItem {
-  text-align: center;
-  font-size: 30px;
-}
 #centering {
-  margin: 0 auto;
+  /*margin: 0 auto;*/
+  margin-left: 30px;
 }
-#accountSettings {
-  font-size: 34px;
-  color: #1565c0;
-}
-.custom-loader {
-  animation: loader 1s infinite;
-  display: flex;
-}
+
 </style>
